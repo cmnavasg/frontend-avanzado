@@ -1,0 +1,33 @@
+<form class="contenedor" [formGroup]="loginForm" >
+  <div class="form-group">
+    <span class="alert alert-danger" *ngIf="usuarioNoEncontrado !== null && usuarioNoEncontrado !== ''">{{usuarioNoEncontrado}}</span>
+     <div class="formulario">
+      <!-- Para no tener que poner en los inputs la etiqueta ngModel, ponemos la abreviatura # -->
+      <div class="campo">
+        <div class="alert  alert-danger" *ngIf="loginForm.hasError('required', 'email')">
+          El email es obligatorio
+        </div>
+        <div class="alert  alert-danger" *ngIf="loginForm.hasError('email', 'email')">
+          El formato de email no es correcto
+        </div>
+        <div class="bloqueCampo">
+          <label>Email: </label>
+          <input type="text" class="form-control" #email placeholder="email" name="email" id="email" formControlName="email" required>
+        </div>
+      </div>
+      <div class="campo">
+        <div class="alert alert-danger" *ngIf="loginForm.hasError('required', 'password')">
+          La contraseña es obligatoria
+        </div>
+        <div class="bloqueCampo">
+          <label>Password: </label>
+          <input type="password" class="form-control" #password formControlName="password" placeholder="Password" required>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3 login_container">
+      <button type="submit" class="btnLogin" [disabled]="!loginForm.valid" (click)="logIn(email.value, password.value, $event)">Login</button>
+      <button type="submit" class="btnRemember">Remember password</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,87 @@
+.input-group-text {
+  min-width: 42px;
+}
+
+/*.contenedor {
+  height: 400px;
+  width: 350px;
+  margin: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
+}
+*/
+
+.formulario {
+  margin: auto;
+  display: block;
+  width: 50%;
+  justify-content: center;
+  padding: 10px;
+  overflow: auto;
+  vertical-align: top;
+  .campo {
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 22px;
+    .alert {
+      width: 70%;
+      float: right;
+      margin: auto;
+    }
+    .bloqueCampo{
+      width: 100%;
+      clear: both;
+      label {
+        width:30%;
+        display: block;
+        float: left;
+      }
+      input {
+        width: 68%;
+        font-size: 17px;
+      }
+    }
+  }
+}
+.login_container {
+  display: flex;
+  justify-content: center;
+  button {
+    float: left;
+    margin: 20px;
+  }
+  .btnLogin{
+    width: 15%;
+  }
+  .btnRemember{
+    width: 25%;
+  }
+}
+button {
+  background: #01045a;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+
+.btnLogin:disabled {
+  background: gray;
+  cursor: not-allowed;
+}

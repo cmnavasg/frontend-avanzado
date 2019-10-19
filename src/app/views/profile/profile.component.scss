@@ -1,0 +1,79 @@
+.datosPersonales{
+  display: block;
+  overflow: auto;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+.contenedorDatosPersonales {
+  display: block;
+  overflow: auto;
+  width: 24%;
+  float: left;
+  text-align: left;
+}
+
+.nombreyapellidos {
+  text-align: center;
+}
+
+.info{
+  label {
+    float: left;
+    width: 150px;
+  }
+  div>span {
+    float: left;
+  }
+}
+
+.bloque {
+  clear: both;
+}
+
+.formacionAcademica {
+  display: block;
+  overflow: auto;
+  width: 100%;
+  clear: both;
+}
+
+h2 {
+  margin-left: 7%;
+}
+
+.tablaEstudios, .tablaExperiencia, .tablaIdiomas {
+  width: 90%;
+  text-align: center;
+  margin: auto;
+  th, td {
+    border: #01045a 1px solid;
+  }
+  table {
+    width: 100%;
+  }
+}
+
+.tam10{
+  width: 10%;
+}
+
+.tam15 {
+  width: 15%;
+}
+
+.tam20 {
+  width: 20%;
+}
+
+.tam30 {
+  width: 30%;
+}
+
+.tam40 {
+  width: 40%;
+}
+
+.fas, .far {
+  cursor: pointer;
+}

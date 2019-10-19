@@ -1,0 +1,16 @@
+.body {
+  width: 100%;
+  background: #60a3bc;
+}
+.centrado60{
+  max-width: 40%;
+  display: block;
+  overflow: auto;
+  margin: auto;
+  .logo {
+    display: block;
+    overflow: auto;
+    margin: auto;
+    width: 70%;
+  }
+}
