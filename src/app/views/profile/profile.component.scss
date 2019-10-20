@@ -3,14 +3,69 @@
   overflow: auto;
   width: 100%;
   margin: auto;
+  margin-top: 2em;
   text-align: center;
+  padding-right: 3%;
 }
-.contenedorDatosPersonales {
+
+.imgUser {
+  width: 50%;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+.contenedorDatosPersonales, .contenedorImagenPerfil, .contenedorAcerca, .contenedorOtrasCompetencias {
   display: block;
   overflow: auto;
-  width: 24%;
   float: left;
   text-align: left;
+}
+
+.contenedorImagenPerfil {
+  width: 23%;
+}
+
+.contenedorDatosPersonales {
+  width: 35%;
+}
+
+.contenedorAcerca {
+  width: 21%;
+}
+
+.contenedorOtrasCompetencias {
+  width: 21%;
+}
+
+textarea {
+  min-height: 6em;
+  width: 92%;
+}
+
+button {
+  background: #01045a;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+
+.btnEdit {
+  float: right;
+  margin-top: 2em;
+  margin-right: 1.2em;
+}
+
+.btnAdd {
+  float:right;
 }
 
 .nombreyapellidos {
@@ -27,6 +82,11 @@
   }
 }
 
+.nuevo {
+  width: 90%;
+  margin: auto;
+}
+
 .bloque {
   clear: both;
 }
@@ -36,16 +96,28 @@
   overflow: auto;
   width: 100%;
   clear: both;
+  margin-top: 3em;
 }
+
+.experienciaLaboral, .idiomas {
+  margin-top: 2em;
+}
+
+
 
 h2 {
   margin-left: 7%;
+}
+
+.cabeceraTabla {
+  background-color: lightgray;
 }
 
 .tablaEstudios, .tablaExperiencia, .tablaIdiomas {
   width: 90%;
   text-align: center;
   margin: auto;
+  margin-top: 1.5em;
   th, td {
     border: #01045a 1px solid;
   }

@@ -1,0 +1,46 @@
+button {
+  background: #01045a;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+
+.btnLogin:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.form-group {
+  width: 60%;
+  margin: auto;
+  margin-top: 1em;
+}
+
+.checkbox, .labelCheckbox {
+  float: left;
+}
+
+.checkbox {
+  width: 30px;
+  margin-left: 10px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.labelCheckbox {
+  padding-top: 0.9em;
+}
+
+.inputFile {
+  min-height: 2.8em;
+}

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {SigninService} from '../signin/signin.service';
 import {User} from '../../shared/models/user.model';
-import {ProfileService} from "../../shared/services/profile.service";
+import {ProfileService} from '../../shared/services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +12,7 @@ import {ProfileService} from "../../shared/services/profile.service";
 export class ProfileComponent implements OnInit {
 
   usuario: User;
+  respuestaError: string;
   constructor(private router: Router, private signinService: SigninService, private profileService: ProfileService) {
     this.profileService.getProvinciasIn();
   }
@@ -40,8 +41,9 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl('profile-student/study/' + id);
   }
 
-  deleteEstudio(id: string) {
-    // codigo
+  deleteEstudio(id: number) {
+    this.profileService.deleteStudy(id, this.usuario)
+      .then(() => this.navigate('/profile-student'));
   }
 
   addIdioma() {
@@ -52,8 +54,9 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl('profile-student/language/' + id);
   }
 
-  deleteIdioma(id: string) {
-    // codigo
+  deleteIdioma(id: number) {
+    this.profileService.deleteLanguage(id, this.usuario)
+      .then(() => this.navigate('/profile-student'));
   }
 
 }

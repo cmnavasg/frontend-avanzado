@@ -60,14 +60,14 @@ export class ProfileLanguageComponent implements OnInit {
         if (this.language !== null) {
           this.idiomaForm = new FormGroup({
             language: new FormControl(this.language.name.uid, [Validators.required]),
-            otro: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            otro: new FormControl(''),
             nivel: new FormControl(this.language.level.uid),
             date: new FormControl(this.language.date)
           });
         } else {
           this.idiomaForm = new FormGroup({
             language: new FormControl('', [Validators.required]),
-            otro: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+            otro: new FormControl(''),
             nivel: new FormControl(''),
             date: new FormControl('')
           });
@@ -75,16 +75,123 @@ export class ProfileLanguageComponent implements OnInit {
       } else {
         this.idiomaForm = new FormGroup({
           language: new FormControl('', [Validators.required]),
-          otro: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+          otro: new FormControl(''),
           nivel: new FormControl(''),
           date: new FormControl('')
         });
       }
     }
+    this.idiomaForm.get('language').valueChanges
+      .subscribe(userCategory => {
+        if (this.idiomaForm.get('language').value === 4 || this.idiomaForm.get('language').value === '4') {
+            this.idiomaForm.get('otro').setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(255)]);
+        } else {
+          this.idiomaForm.get('otro').setValidators(null);
+        }
+        this.idiomaForm.get('otro').updateValueAndValidity();
+      });
   }
 
   getLanguage(uid: string, languages: Language[]) {
     this.language = this.profileService.getLanguage(uid, languages);
+  }
+
+  editOrSave(form: FormGroup) {
+    const lenguaje = {} as Language;
+    if (this.idLanguage != null) {
+      lenguaje.uid = Number(this.idLanguage);
+    }
+    if (form.get('language').value != null) {
+      if (form.get('language').value !== 4 && form.get('language').value !== '4') {
+        this.profileService.getLanguageName(form.get('language').value).then(
+          resN => {
+            lenguaje.name = resN[0];
+            if (form.get('nivel').value != null) {
+              this.profileService.getLevelLanguage(form.get('nivel').value).then(
+                resL => {
+                  lenguaje.level = resL[0];
+                  lenguaje.date = form.get('date').value;
+                  this.profileService.updateOrSaveLanguage(lenguaje, this.user)
+                    .then(() => this.navigate('/profile-student'));
+                  console.log(this.user);
+                  this.signinService.setUserLoggedIn(this.user);
+                },
+                error => {
+                  console.log(error);
+                }
+              );
+            } else {
+              lenguaje.level = {} as LanguageLevel;
+              lenguaje.date = form.get('date').value;
+              this.profileService.updateOrSaveLanguage(lenguaje, this.user)
+                .then(() => this.navigate('/profile-student'));
+              console.log(this.user);
+              this.signinService.setUserLoggedIn(this.user);
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.profileService.getLevelsLanguage().subscribe(
+          res => {
+            lenguaje.name = {} as LanguageName;
+            lenguaje.name.uid = res.length;
+            lenguaje.name.name = form.get('otro').value;
+            if (form.get('nivel').value != null) {
+              this.profileService.getLevelLanguage(form.get('nivel').value).then(
+                resL => {
+                  lenguaje.level = resL[0];
+                  lenguaje.date = form.get('date').value;
+                  this.profileService.updateOrSaveLanguage(lenguaje, this.user)
+                    .then(() => this.navigate('/profile-student'));
+                  console.log(this.user);
+                  this.signinService.setUserLoggedIn(this.user);
+                },
+                error => {
+                  console.log(error);
+                }
+              );
+            } else {
+              lenguaje.level = {} as LanguageLevel;
+              lenguaje.date = form.get('date').value;
+              this.profileService.updateOrSaveLanguage(lenguaje, this.user)
+                .then(() => this.navigate('/profile-student'));
+              console.log(this.user);
+              this.signinService.setUserLoggedIn(this.user);
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+    } else {
+      lenguaje.name = {} as LanguageName;
+      if (form.get('nivel').value != null) {
+        this.profileService.getLevelLanguage(form.get('nivel').value).then(
+          resL => {
+            lenguaje.level = resL[0];
+            lenguaje.date = form.get('date').value;
+            this.profileService.updateOrSaveLanguage(lenguaje, this.user)
+              .then(() => this.navigate('/profile-student'));
+            console.log(this.user);
+            this.signinService.setUserLoggedIn(this.user);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else {
+        lenguaje.level = {} as LanguageLevel;
+        lenguaje.date = form.get('date').value;
+        this.profileService.updateOrSaveLanguage(lenguaje, this.user)
+          .then(() => this.navigate('/profile-student'));
+        console.log(this.user);
+        this.signinService.setUserLoggedIn(this.user);
+      }
+    }
   }
 
   navigate(url: string) {

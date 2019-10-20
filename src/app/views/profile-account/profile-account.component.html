@@ -1,59 +1,108 @@
 <form class="contenedor" [formGroup]="accountForm" >
   <div class="form-group">
-    <!-- Para no tener que poner en los inputs la etiqueta ngModel, ponemos la abreviatura # -->
-    <div class="alert alert-danger" *ngIf="accountForm.hasError('required', 'name')">
-      El nombre es obligatorio
+    <div class="contenedorImagen">
+      <img src="{{usuario.avatar_hash}}" class="imgUser">
     </div>
-    <label>Nombre</label>
-    <input type="text" class="form-control" #name placeholder="Nombre" name="name" id="name" formControlName="name" required>
-    <div class="alert alert-danger" *ngIf="accountForm.hasError('required', 'surname')">
-      Los apellidos son obligatorios
-    </div>
-    <label>Apellidos</label>
-    <input type="text"  class="form-control" #surname name="surname" id="surname" formControlName="surname" placeholder="Apellidos" required>
-    <div class="alert alert-danger" *ngIf="accountForm.hasError('pattern', 'birthdate')">
-      La fecha debe ser introducida en formato dd/mm/yyyy
-    </div>
-    <label>F. Nacimiento</label>
-    <input type="text"  class="form-control" #birthdate name="birthdate" id="birthdate"  formControlName="birthdate" placeholder="dd/mm/yyyy">
-    <label>Teléfono 2</label>
-    <input type="text"  class="form-control" #phone name="phone" id="phone" formControlName="phone" placeholder="Teléfono">
-    <label>Teléfono</label>
-    <input type="text"  class="form-control" #phone2 name="phone2" id="phone2" formControlName="phone2" placeholder="Otro Teléfono">
-    <label>DNI/NIF</label>
-    <select formControlName="documentType" #documentType>
-      <option [ngValue]="null">Elige una opción</option>
-      <option *ngFor="let doc of allDocuments" [ngValue]="doc.uid">
-        {{ doc.name }}
-      </option>
-    </select>
-    <label>Número</label>
-    <input type="text"  class="form-control" #documentNumber name="documentNumber" id="documentNumber" formControlName="documentNumber">
-    <label>Dirección</label>
-    <input type="text"  class="form-control" #street name="street" id="street" formControlName="street">
-    <label>Provincia</label>
-    <select formControlName="provincia" #provincia (change)="cargarListadoMunicipios(provincia.selectedIndex)">
-      <option [ngValue]="null">Elige una opción</option>
-      <option *ngFor="let prov of allProvinces" [ngValue]="prov.uid">
-        {{ prov.name }}
-      </option>
-    </select>
-    <label>Municipio</label>
-    <select formControlName="municipio" #municipio>
-      <option [ngValue]="null">Elige una opción</option>
-      <option *ngFor="let mun of allMunicipes" [ngValue]="mun.uid">
-        {{ mun.name }}
-      </option>
-    </select>
-    <label>Permisos de conducir</label>
-    <input type="text"  class="form-control" #permisos name="permisos" id="permisos" formControlName="permisos">
-    <label>Sobre mí</label>
-    <textarea  class="form-control" #aboutMe name="aboutMe" id="aboutMe" formControlName="aboutMe"></textarea>
-    <label>Otras competencias</label>
-    <textarea  class="form-control" #otherCompetences name="otherCompetences" id="otherCompetences" formControlName="otherCompetences"></textarea>
-    <div class="d-flex justify-content-center mt-3 login_container salto"><button type="submit" class="btn" [disabled]="!accountForm.valid" (click)="editAccount(name.value, surname.value, birthdate.value, phone.value, phone2.value,
-documentType.selectedIndex, documentNumber.value, street.value, provincia.selectedIndex, municipio.selectedIndex, permisos.value, aboutMe.value, otherCompetences.value, $event)">Guardar</button>
-      <!--(click)="anadirAve(bird_name.value, bird_description.value, place.value, lat.value, long.value, $event)"-->
-    </div>
+    <div class="contenedorDatosPersonales">
+      <div class="row">
+        <div class="col-md-6">
+        <div class="alert alert-danger" *ngIf="accountForm.hasError('required', 'name')">
+          El nombre es obligatorio
+        </div>
+        <label>Nombre</label>
+        <input type="text" class="form-control" #name placeholder="Nombre" name="name" id="name" formControlName="name" required>
+        <div class="alert alert-danger" *ngIf="accountForm.hasError('required', 'surname')">
+          Los apellidos son obligatorios
+        </div>
+        </div>
+        <div class="col-md-6">
+        <label>Apellidos</label>
+        <input type="text"  class="form-control" #surname name="surname" id="surname" formControlName="surname" placeholder="Apellidos" required>
+        <div class="alert alert-danger" *ngIf="accountForm.hasError('pattern', 'birthdate')">
+          La fecha debe ser introducida en formato dd/mm/yyyy
+        </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+      <label>F. Nacimiento</label>
+      <input type="text"  class="form-control" #birthdate name="birthdate" id="birthdate"  formControlName="birthdate" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="col-md-6"></div>
+        </div>
+      <div class="row">
+        <div class="col-md-6">
+      <label>Teléfono 1</label>
+      <input type="text"  class="form-control" #phone name="phone" id="phone" formControlName="phone" placeholder="Teléfono">
+        </div>
+        <div class="col-md-6">
+          <label>Teléfono 2</label>
+      <input type="text"  class="form-control" #phone2 name="phone2" id="phone2" formControlName="phone2" placeholder="Otro Teléfono">
+        </div>
+        </div>
+      <div class="row">
+        <div class="col-md-6">
+      <label>DNI/NIF</label>
+      <select formControlName="documentType" #documentType class="form-control">
+        <option [ngValue]="null">Elige una opción</option>
+        <option *ngFor="let doc of allDocuments" [value]="doc.uid">
+          {{ doc.name }}
+        </option>
+      </select>
+        </div>
+        <div class="col-md-6">
+      <label>Número</label>
+      <input type="text"  class="form-control" #documentNumber name="documentNumber" id="documentNumber" formControlName="documentNumber">
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        <label>Dirección</label>
+      <input type="text"  class="form-control" #street name="street" id="street" formControlName="street">
+        </div>
+        </div>
+      <div class="row">
+        <div class="col-md-6">
+        <label>Provincia</label>
+      <select formControlName="provincia" #provincia (change)="cargarListadoMunicipios(provincia.selectedIndex)" class="form-control">
+        <option [ngValue]="null">Elige una opción</option>
+        <option *ngFor="let prov of allProvinces" [value]="prov.uid">
+          {{ prov.name }}
+        </option>
+      </select>
+        </div>
+        <div class="col-md-6">
+      <label>Municipio</label>
+      <select formControlName="municipio" #municipio class="form-control">
+        <option [ngValue]="null">Elige una opción</option>
+        <option *ngFor="let mun of allMunicipes" [value]="mun.uid">
+          {{ mun.name }}
+        </option>
+      </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+      <label>Permisos de conducir</label>
+      <input type="text"  class="form-control" #permisos name="permisos" id="permisos" formControlName="permisos">
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+      <label>Sobre mí</label>
+      <textarea  class="form-control" #aboutMe name="aboutMe" id="aboutMe" formControlName="aboutMe"></textarea>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        <label>Otras competencias</label>
+      <textarea  class="form-control" #otherCompetences name="otherCompetences" id="otherCompetences" formControlName="otherCompetences"></textarea>
+        </div>
+      </div>
+      </div>
+  </div>
+  <div class="d-flex justify-content-center mt-3 login_container salto contenedorBoton"><button type="submit" class="btn" [disabled]="!accountForm.valid" (click)="editAccount(name.value, surname.value, birthdate.value, phone.value, phone2.value,
+documentType.value, documentNumber.value, street.value, provincia.value, municipio.value, permisos.value, aboutMe.value, otherCompetences.value, $event)">Guardar</button>
+    <!--(click)="anadirAve(bird_name.value, bird_description.value, place.value, lat.value, long.value, $event)"-->
   </div>
 </form>

@@ -35,6 +35,8 @@ export class Grade {
 export class TitleStudy {
   uid: number;
   name: string;
+  uidCategory: number;
+  uidGrade: number;
 }
 export class LevelStudy {
   uid: number;

@@ -16,7 +16,6 @@ export class ProfileAccountComponent implements OnInit {
   allDocuments: DocumentType[];
   allProvinces: Province[];
   allMunicipes: Municipe[];
-  address: UserAddress;
   prov: Province;
   mun: Municipe;
   respuestaError;
@@ -50,10 +49,7 @@ export class ProfileAccountComponent implements OnInit {
     } else {
       this.usuario = this.signinService.getUserLoggedIn();
       this.allDocuments = this.profileService.recuperarProvincias();
-      console.log('Provincias');
-      console.log(this.allDocuments);
       this.profileService.getDocuments().subscribe(
-
         res => {
           this.allDocuments = res;
         },
@@ -113,8 +109,8 @@ export class ProfileAccountComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
-  editAccount(name: string, surname: string, birthdate: string, phone: string, phone2: string, documentType: number,
-              documentNumber: string, street: string, provincia: number, municipio: number, permisos: string, aboutMe: string,
+  editAccount(name: string, surname: string, birthdate: string, phone: string, phone2: string, documentType: string,
+              documentNumber: string, street: string, provincia: string, municipio: string, permisos: string, aboutMe: string,
               otherCompetences: string, event: Event) {
     event.preventDefault();
     this.usuario.name = name;
@@ -122,103 +118,140 @@ export class ProfileAccountComponent implements OnInit {
     this.usuario.birthdate = birthdate;
     this.usuario.phone = phone;
     this.usuario.phone2 = phone2;
-    if (documentType != null) {
-      if (this.usuario.documentType != null) {
-        this.usuario.documentType.uid = documentType;
-      } else {
-        this.profileService.recuperarTipoDocumento(documentType).subscribe(
-          res => {
-            this.usuario.documentType = res[0];
-          },
-          error => {
-            this.usuario.documentType = null;
-          }
-        );
-      }
-    }
-    this.usuario.documentNumber = documentNumber;
-    this.address = {} as UserAddress;
     if ((street != null && street !== '') || provincia != null || municipio != null) {
-      if (street != null && street !== '') {
-        if (provincia != null) {
-          if (municipio != null) {
-            this.profileService.getProvincia(provincia).then(
-              resP => {
-                this.prov = resP[0];
-                this.profileService.getMunicipio(municipio).then(
-                  res => {
-                    this.mun = res[0];
-                    console.log(municipio);
-                    const address: UserAddress = { street, province: this.prov, municipe: this.mun };
-                    this.usuario.address = address;
-                    this.usuario.license = permisos;
-                    this.usuario.aboutMe = aboutMe;
-                    this.usuario.otherCompetences = otherCompetences;
-                    console.log (this.usuario);
+      if (provincia != null && !provincia.includes('null')) {
+        if (municipio != null && !municipio.includes('null')) {
+          this.profileService.getProvincia(provincia).then(
+            resP => {
+              this.prov = resP[0];
+              this.profileService.getMunicipio(municipio).then(
+                resM => {
+                  this.mun = resM[0];
+                  if (street == null) {
+                    street  = '';
+                  }
+                  const address: UserAddress = { street, province: this.prov, municipe: this.mun };
+                  this.usuario.address = address;
+                  this.usuario.license = permisos;
+                  this.usuario.aboutMe = aboutMe;
+                  this.usuario.otherCompetences = otherCompetences;
+                  if (documentType != null && !documentType.includes('null')) {
+                    this.profileService.recuperarTipoDocumento(documentType).subscribe(
+                      resD => {
+                        this.usuario.documentType = resD[0];
+                        this.profileService.updateUser(this.usuario)
+                          .subscribe(() => this.navigate('/profile-student'));
+                        this.signinService.setUserLoggedIn(this.usuario);
+                      },
+                      error => {
+                        this.usuario.documentType = null;
+                      }
+                    );
+                  } else {
+                    this.usuario.documentType = {} as DocumentType;
+                    this.profileService.updateUser(this.usuario)
+                      .subscribe(() => this.navigate('/profile-student'));
+                    this.signinService.setUserLoggedIn(this.usuario);
+                  }
+                },
+                error => {
+                  this.mun = null;
+                }
+              );
+            },
+            error => {
+              this.prov = null;
+            }
+          );
+        } else {
+          this.profileService.getProvincia(provincia).then(
+            resP => {
+              this.prov = resP[0];
+              this.mun = {} as Municipe;
+              if (street == null) {
+                street  = '';
+              }
+              const address: UserAddress = { street, province: this.prov, municipe: this.mun };
+              this.usuario.address = address;
+              this.usuario.license = permisos;
+              this.usuario.aboutMe = aboutMe;
+              this.usuario.otherCompetences = otherCompetences;
+              if (documentType != null && !documentType.includes('null')) {
+                this.profileService.recuperarTipoDocumento(documentType).subscribe(
+                  resD => {
+                    this.usuario.documentType = resD[0];
                     this.profileService.updateUser(this.usuario)
                       .subscribe(() => this.navigate('/profile-student'));
                     this.signinService.setUserLoggedIn(this.usuario);
                   },
                   error => {
-                    this.mun = null;
+                    this.usuario.documentType = null;
                   }
                 );
-              },
-              error => {
-                this.mun = null;
+              } else {
+                this.usuario.documentType = {} as DocumentType;
+                this.profileService.updateUser(this.usuario)
+                  .subscribe(() => this.navigate('/profile-student'));
+                this.signinService.setUserLoggedIn(this.usuario);
               }
-            );
-          }
+            },
+            error => {
+              this.prov = null;
+            }
+          );
         }
+      } else {
+        this.prov = {} as Province;
+        this.mun = {} as Municipe;
+        if (street == null) {
+          street  = '';
+        }
+        const address: UserAddress = { street, province: this.prov, municipe: this.mun };
+        this.usuario.address = address;
+        this.usuario.license = permisos;
+        this.usuario.aboutMe = aboutMe;
+        this.usuario.otherCompetences = otherCompetences;
+        if (documentType != null && !documentType.includes('null')) {
+          this.profileService.recuperarTipoDocumento(documentType).subscribe(
+            resD => {
+              this.usuario.documentType = resD[0];
+              this.profileService.updateUser(this.usuario)
+                .subscribe(() => this.navigate('/profile-student'));
+              this.signinService.setUserLoggedIn(this.usuario);
+            },
+            error => {
+              this.usuario.documentType = null;
+            }
+          );
+        } else {
+          this.usuario.documentType = {} as DocumentType;
+          this.profileService.updateUser(this.usuario)
+            .subscribe(() => this.navigate('/profile-student'));
+          this.signinService.setUserLoggedIn(this.usuario);
+        }
+      }
+    } else {
+      this.usuario.license = permisos;
+      this.usuario.aboutMe = aboutMe;
+      this.usuario.otherCompetences = otherCompetences;
+      if (documentType != null && !documentType.includes('null')) {
+        this.profileService.recuperarTipoDocumento(documentType).subscribe(
+          resD => {
+            this.usuario.documentType = resD[0];
+            this.profileService.updateUser(this.usuario)
+              .subscribe(() => this.navigate('/profile-student'));
+            this.signinService.setUserLoggedIn(this.usuario);
+          },
+          error => {
+            this.usuario.documentType = null;
+          }
+        );
+      } else {
+        this.usuario.documentType = {} as DocumentType;
+        this.profileService.updateUser(this.usuario)
+          .subscribe(() => this.navigate('/profile-student'));
+        this.signinService.setUserLoggedIn(this.usuario);
       }
     }
-  /*  this.profileService.editAccount(this.usuario).subscribe(
-      res => {
-        console.log(res);
-        // @ts-ignore
-        if (res.status === 'OK') {
-          this.estado = 'OK';
-        }
-        this.navigate('/profile');
-      },
-      error => {
-        this.estado = 'KO';
-        console.error(error);
-        this.navigate('/profile');
-      }
-    );*/
-  }
-
-/*  recuperaProvincia(uid) {
-    this.profileService.getProvincia(uid).then(
-      res => {
-        console.log(res[0]);
-        this.prov = res[0];
-      },
-      error => {
-        this.prov = null;
-      }
-    );
-  }
- */
-
-  recuperaProvincia(uid) {
-    console.log('recupera');
-    console.log(this.allProvinces);
-    return this.allProvinces.find(
-      (prov) => (prov.uid).toString() === uid
-    );
-  }
-
-  recuperarMunicipio(uid) {
-    this.profileService.getMunicipio(uid).then(
-      res => {
-        console.log(res[0]);
-        this.mun = res[0];
-      },
-      error => {
-        this.mun = null;
-      }
-    );
   }
 }

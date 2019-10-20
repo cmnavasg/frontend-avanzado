@@ -7,6 +7,8 @@ import {ProfileAccountComponent} from './views/profile-account/profile-account.c
 import {ProfileStudyComponent} from './views/profile-study/profile-study.component';
 import {ProfileLanguageComponent} from './views/profile-language/profile-language.component';
 import {DashboardComponent} from "./views/dashboard/dashboard.component";
+import {OffersComponent} from "./views/offers/offers.component";
+import {OffersDetailComponent} from "./views/offers-detail/offers-detail.component";
 /* import { AdminLayoutComponent } from './shared/components/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './shared/components/layouts/auth-layout/auth-layout.component';
 import { AuthGuard } from './shared/services/auth/auth.guard'; */
@@ -48,6 +50,14 @@ const routes: Routes = [
   {
     path: 'profile-student/language/:uid',
     component: ProfileLanguageComponent
+  },
+  {
+    path: 'offers',
+    component: OffersComponent
+  },
+  {
+    path: 'offers/offers-detail/:uid',
+    component: OffersDetailComponent
   },
   {
     path: 'forgot-password',

@@ -1,0 +1,49 @@
+<div class="offerDetail" *ngIf="oferta">
+  <h2>Oferta</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <label>Empresa: </label>
+      <span>{{oferta.company.name}}</span>
+    </div>
+    <div class="col-md-6">
+      <label>Puesto: </label>
+      <span>{{oferta.job.name}}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Descripción: </label>
+      <span>{{oferta.job.description}}</span>
+    </div>
+  </div>
+  <h2>Municipio</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <label>Provincia: </label>
+      <span>{{oferta.province.name}}</span>
+    </div>
+    <div class="col-md-6">
+      <label>Municipio: </label>
+      <span>{{oferta.municipe.name}}</span>
+    </div>
+  </div>
+  <h2>Destinado a:</h2>
+  <div>
+    <label>Familia: </label>
+    <span>{{oferta.category.name}}</span>
+    <div class="tablaTitulos">
+      <table class="table table-striped">
+        <tr class="cabeceraTabla">
+          <th scope="col">Título</th>
+        </tr>
+        <tr *ngFor="let titulo of oferta.title">
+          <td>{{titulo.name}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="inscribirse">
+    <button type="submit" class="btnAdd" (click)="inscribirse()">Inscribirse</button>
+  </div>
+</div>
+

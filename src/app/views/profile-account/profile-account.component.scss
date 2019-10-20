@@ -1,0 +1,46 @@
+.contenedorImagen {
+  width:25%;
+  float: left;
+  padding: 50px;
+}
+
+.form-group {
+  float: left;
+}
+
+.contenedorBoton {
+  float: right;
+  margin-right: 30px;
+}
+
+.contenedorDatosPersonales {
+  width: 75%;
+  float: left;
+}
+
+.imgUser {
+  width: 100%;
+}
+
+button {
+  background: #01045a;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+
+.row {
+  width: 100%;
+  float: left;
+  margin-top: 0.5em;
+}

@@ -1,6 +1,6 @@
 <div class="userDetail" *ngIf="usuario">
   <div class="datosPersonales">
-    <div class="nombreyapellidos contenedorDatosPersonales">
+    <div class="contenedorImagenPerfil nombreyapellidos">
       <div><img src="{{usuario.avatar_hash}}" class="imgUser"></div>
       <div>
         <span>{{usuario.name}}</span>
@@ -29,13 +29,13 @@
         <div><span>{{usuario.license}}</span></div>
       </div>
     </div>
-    <div class="contenedorDatosPersonales">
-      <label>Acerca de mi...</label>
-      <div><span>{{usuario.aboutMe}}</span></div>
+    <div class="contenedorAcerca">
+      <label><b>Acerca de mi...</b></label>
+      <div><textarea readonly>{{usuario.aboutMe}}</textarea></div>
     </div>
-    <div class="contenedorDatosPersonales">
-      <label>Otras competencias</label>
-      <div><span>{{usuario.otherCompetences}}</span></div>
+    <div class="contenedorOtrasCompetencias">
+      <label><b>Otras competencias</b></label>
+      <div><textarea readonly>{{usuario.otherCompetences}}</textarea></div>
     </div>
     <div class="editar">
       <button type="submit" class="btnEdit" (click)="editarDatosPersonales()">Editar</button>
@@ -45,7 +45,7 @@
     <h2>Formación Académica</h2>
     <div class="tablaEstudios">
       <table class="table table-striped">
-        <tr>
+        <tr class="cabeceraTabla">
           <th class="tam10" scope="col">Nivel</th>
           <th class="tam30" scope="col">Título</th>
           <th class="tam30" scope="col">Centro</th>
@@ -56,10 +56,11 @@
         <tr *ngFor="let formacion of this.usuario.studies">
           <td>{{formacion.level.name}}</td>
           <td>{{formacion.title.name}}</td>
-          <td>{{formacion.grade.name}}</td>
+          <td *ngIf="formacion.grade">{{formacion.grade.name}}</td>
+          <td *ngIf="!formacion.grade">{{formacion.institution}}</td>
           <td>{{formacion.date}}</td>
           <td>{{formacion.certificate}}</td>
-          <td><i class="fas fa-pencil-alt" (click)="editEstudio(formacion.uid.toString())"></i><i class="far fa-times-circle" (click)="deleteEstudio(formacion.uid.toString())"></i></td>
+          <td><i class="fas fa-pencil-alt" (click)="editEstudio(formacion.uid.toString())"></i><i class="far fa-times-circle" (click)="deleteEstudio(formacion.uid)"></i></td>
         </tr>
       </table>
     </div>
@@ -71,8 +72,8 @@
   <div class="experienciaLaboral">
     <h2>Experiencia Laboral</h2>
     <div class="tablaExperiencia">
-      <table>
-        <tr>
+      <table class="table table-striped">
+        <tr class="cabeceraTabla">
           <th class="tam30" scope="col">Empresa</th>
           <th class="tam30" scope="col">Puesto</th>
           <th class="tam30" scope="col">Fechas</th>
@@ -90,8 +91,8 @@
   <div class="idiomas">
     <h2>Idioma</h2>
     <div class="tablaIdiomas">
-      <table>
-        <tr>
+      <table class="table table-striped">
+        <tr class="cabeceraTabla">
           <th class="tam30" scope="col">Nivel</th>
           <th class="tam30" scope="col">Idioma</th>
           <th class="tam40" scope="col">Fecha</th>
@@ -99,9 +100,11 @@
         </tr>
         <tr *ngFor="let idioma of this.usuario.languages">
           <td>{{idioma.level.name}}</td>
-          <td>{{idioma.name.name}}</td>
-          <td>{{idioma.date}}</td>
-          <td><i class="fas fa-pencil-alt" (click)="editIdioma(idioma.uid.toString())"></i><i class="far fa-times-circle" (click)="deleteIdioma(idioma.uid.toString())"></i></td>
+          <td *ngIf="idioma.name.name">{{idioma.name.name}}</td>
+          <td *ngIf="!idioma.name.name"></td>
+          <td *ngIf="idioma.date">{{idioma.date}}</td>
+          <td *ngIf="!idioma.date"></td>
+          <td><i class="fas fa-pencil-alt" (click)="editIdioma(idioma.uid.toString())"></i><i class="far fa-times-circle" (click)="deleteIdioma(idioma.uid)"></i></td>
         </tr>
       </table>
     </div>

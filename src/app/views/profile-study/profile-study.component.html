@@ -1,9 +1,9 @@
 <form class="contenedor" [formGroup]="estudioForm" >
   <div class="form-group">
     <label>Nombre</label>
-    <select formControlName="level" #level >
-      <option [ngValue]="">Elige una opción</option>
-      <option *ngFor="let lev of allLevel" [ngValue]="lev.uid">
+    <select formControlName="level" #level required class="form-control">
+      <option [value]="null">Elige una opción</option>
+      <option *ngFor="let lev of allLevel" [value]="lev.uid">
         {{ lev.name }}
       </option>
     </select>
@@ -11,48 +11,52 @@
       <label>Nombre del centro</label>
       <input type="text"  class="form-control" #institution name="institution" id="institution" formControlName="institution">
       <label>Título</label>
-      <input type="text"  class="form-control" #category name="category" id="category" formControlName="category">
+      <input type="text"  class="form-control" #title name="title" id="title" formControlName="title">
     </div>
     <div id="cicloFormativo" (show)="level.selectedIndex ===  2" [hidden]="level.selectedIndex !==  2">
       <label>Centro educativo</label>
-      <select formControlName="institution" #institution>
-        <option [ngValue]="">Elige una opción</option>
-        <option *ngFor="let inst of allInstitutions" [ngValue]="inst.uid">
+      <select formControlName="institution" #institution class="form-control">
+        <option [value]="null">Elige una opción</option>
+        <option *ngFor="let inst of allInstitutions" [value]="inst.uid">
           {{ inst.name }}
         </option>
       </select>
       <label>Familia profesional</label>
-      <select formControlName="category" #category>
-        <option [ngValue]="">Elige una opción</option>
-        <option *ngFor="let cate of allCategories" [ngValue]="cate.uid">
+      <select formControlName="category" #category (change)="cargarListadoCiclosFormulario(estudioForm)" class="form-control">
+        <option [value]="null">Elige una opción</option>
+        <option *ngFor="let cate of allCategories" [value]="cate.uid">
           {{ cate.name }}
         </option>
       </select>
       <label>Grado</label>
-      <select formControlName="grade" #grade>
-        <option [ngValue]="">Elige una opción</option>
-        <option *ngFor="let grad of allGrades" [ngValue]="grad.uid">
+      <select formControlName="grade" #grade (change)="cargarListadoCiclosFormulario(estudioForm)" class="form-control">
+        <option [value]="null">Elige una opción</option>
+        <option *ngFor="let grad of allGrades" [value]="grad.uid">
           {{ grad.name }}
         </option>
       </select>
       <label>Ciclo</label>
-      <select formControlName="title" #title>
-        <option [ngValue]="">Elige una opción</option>
-        <option *ngFor="let tit of allTitles" [ngValue]="tit.uid">
+      <select formControlName="title" #title class="form-control">
+        <option [value]="null">Elige una opción</option>
+        <option *ngFor="let tit of allTitles" [value]="tit.uid">
           {{ tit.name }}
         </option>
       </select>
-      <input type="checkbox"  class="form-control" #dual name="dual" id="dual"  formControlName="dual" >
+      <div class="row">
+        <input type="checkbox"  class="form-control checkbox" #dual name="dual" id="dual"  formControlName="dual" >
+        <label class="labelCheckbox">Formación dual</label>
+      </div>
     </div>
     <label>Fecha del título</label>
     <input type="text"  class="form-control" #date name="date" id="date"  formControlName="date" placeholder="dd/mm/yyyy">
-    <label>Formación bilingüe</label>
-    <input type="checkbox"  class="form-control" #bilingue name="bilingue" id="bilingue"  formControlName="bilingue" >
-    <label>Certificado</label>
-    <input type="file"  class="form-control" #certificate name="certificate" id="certificate"  formControlName="certificate" >
+    <div class="row">
+      <input type="checkbox"  class="form-control checkbox" #bilingue name="bilingue" id="bilingue"  formControlName="bilingue" >
+      <label class="labelCheckbox">Formación bilingüe</label>
+    </div>
+      <label>Certificado</label>
+    <input type="file"  class="form-control inputFile" #certificate name="certificate" id="certificate"  formControlName="certificate" >
     <div class="d-flex justify-content-center mt-3 login_container salto">
-      <button type="submit" class="btn" [disabled]="!estudioForm.valid" >Guardar</button>
-      <!--(click)="anadirAve(bird_name.value, bird_description.value, place.value, lat.value, long.value, $event)"-->
+      <button type="submit" class="btn" [disabled]="!estudioForm.valid" (click)="editOrSave(estudioForm)">Guardar</button>
     </div>
   </div>
 </form>

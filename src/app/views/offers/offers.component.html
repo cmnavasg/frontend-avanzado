@@ -1,3 +1,48 @@
-<p>
-  offers works!
-</p>
+<div class="offers" *ngIf="ofertas">
+  <div id="filtros">
+    <div class="row">
+      <div class="col-md-6">
+        <label>Provincia</label>
+        <select #provincia class="form-control">
+          <option [value]="null" selected>Elige una opción</option>
+          <option *ngFor="let prov of allProvinces" [value]="prov.uid">
+            {{ prov.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label>Fecha</label>
+        <input type="text"  class="form-control" #date name="date" id="date"  placeholder="dd/mm/yyyy">
+      </div>
+    </div>
+    <div class="d-flex justify-content-right mt-3 ">
+      <button type="submit" class="btn" >Buscar</button>
+    </div>
+  </div>
+  <h2>Ofertas</h2>
+  <div class="tablaOfertas">
+    <table class="table table-striped">
+      <tr class="cabeceraTabla">
+        <th class="tam10" scope="col">Puesto</th>
+        <th class="tam30" scope="col">Empresa</th>
+        <th class="tam30" scope="col">Familia Profesional</th>
+        <th class="tam10" scope="col">Fecha</th>
+        <th class="tam10" scope="col">Provincia</th>
+        <th class="tam10" scope="col">Acciones</th>
+      </tr>
+      <tr *ngFor="let oferta of ofertas">
+        <td *ngIf="oferta.job.name">{{oferta.job.name}}</td>
+        <td *ngIf="!oferta.job.name"></td>
+        <td *ngIf="oferta.company.name">{{oferta.company.name}}</td>
+        <td *ngIf="!oferta.company.name"></td>
+        <td *ngIf="oferta.category.name">{{oferta.category.name}}</td>
+        <td *ngIf="!oferta.category.name"></td>
+        <td *ngIf="oferta.date">{{oferta.date}}</td>
+        <td *ngIf="!oferta.date"></td>
+        <td *ngIf="oferta.province">{{oferta.province.name}}</td>
+        <td *ngIf="!oferta.province"></td>
+        <td><i class="fas fa-search" (click)="verOferta(oferta.id.toString())"></i></td>
+      </tr>
+    </table>
+  </div>
+</div>

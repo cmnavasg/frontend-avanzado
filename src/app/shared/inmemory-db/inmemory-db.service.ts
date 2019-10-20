@@ -1,6 +1,6 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import {DocumentType, Municipe, Province, User} from '../models/user.model';
-import {Category, Grade, Institution, LevelStudy} from '../models/study.model';
+import {Category, Grade, Institution, LevelStudy, TitleStudy} from '../models/study.model';
 import {Language, LanguageName} from '../models/language.model';
 
 export class FakeBackendService implements InMemoryDbService {
@@ -39,7 +39,9 @@ export class FakeBackendService implements InMemoryDbService {
             },
             title: {
               uid: 2,
-              name: 'Administracion de sistemas informaticos y redes'
+              name: 'Administracion de sistemas informaticos y redes',
+              uidCategory: 2,
+              uidGrade: 3
             },
             grade: {
               uid: 3,
@@ -60,7 +62,9 @@ export class FakeBackendService implements InMemoryDbService {
             level: { uid: 2, name: 'Ciclo Formativo' },
             title: {
               uid: 1,
-              name: 'Técnico Superior en Desarrollo de Aplicaciones Web'
+              name: 'Técnico Superior en Desarrollo de Aplicaciones Web',
+              uidCategory: 2,
+              uidGrade: 3
             },
             grade: { uid: 3, name: 'Ciclo Formativo de Grado Superior' },
             date: '30/06/2007',
@@ -138,9 +142,9 @@ export class FakeBackendService implements InMemoryDbService {
     ];
 
     const categories: Category[] = [
-      {uid: 1, name: 'Cateoria prueba'},
+      {uid: 1, name: 'Categoría prueba'},
       {uid: 2, name: 'Informática y comunicaciones'},
-      {uid: 3, name: 'Categoria Prueba 2'},
+      {uid: 3, name: 'Categoría Prueba 2'},
       {uid: 4, name: 'Comercio y Marketing'}
     ];
 
@@ -184,6 +188,16 @@ export class FakeBackendService implements InMemoryDbService {
       {uid: 8, name: 'Granada', uidProv: 4},
       {uid: 9, name: 'Motril', uidProv: 4}
     ];
+    const titles: TitleStudy[] = [
+      {uid: 1, name: 'Técnico Superior en Desarrollo de Aplicaciones Web', uidCategory: 2, uidGrade: 3},
+      {uid: 2, name: 'Administracion de sistemas informaticos y redes', uidCategory: 2, uidGrade: 3},
+      {uid: 3, name: 'Técnico sistemas informaticos y redes', uidCategory: 2, uidGrade: 2},
+      {uid: 4, name: 'Técnico Superior de Marketing', uidCategory: 4, uidGrade: 3},
+      {uid: 5, name: 'Desarrollo Aplicaciones Web', uidCategory: 2, uidGrade: 3},
+      {uid: 6, name: 'Desarrollo Aplicaciones Multiplataforma', uidCategory: 2, uidGrade: 1},
+      {uid: 7, name: 'Gestión Comercial y Empresarial', uidCategory: 4, uidGrade: 3},
+      {uid: 8, name: 'Empresariales', uidCategory: 4, uidGrade: 1}
+    ];
 
     const offers: any[] = [
       {
@@ -201,8 +215,9 @@ export class FakeBackendService implements InMemoryDbService {
         date: '21/09/2006',
         category: { uid: 2, name: 'Informática y Comunicaciones' },
         title: [
-          { uid: 1, name: 'Desarrollo Aplicaciones Web' },
-          { uid: 4, name: 'Desarrollo Aplicaciones Multiplataforma' }
+          {uid: 1, name: 'Técnico Superior en Desarrollo de Aplicaciones Web', uidCategory: 2, uidGrade: 3},
+          { uid: 5, name: 'Desarrollo Aplicaciones Web', uidCategory: 2, uidGrade: 3},
+          { uid: 6, name: 'Desarrollo Aplicaciones Multiplataforma', uidCategory: 2, uidGrade: 1}
         ]
       },
       {
@@ -220,7 +235,7 @@ export class FakeBackendService implements InMemoryDbService {
         municipe: { uid: 3, name: 'Campanillas (PTA)', uidProv: 1 },
         date: '21/09/2016',
         category: { uid: 4, name: 'Comercio y Marketing' },
-        title: [{ uid: 5, name: 'Gestión Comercial y Empresarial' }]
+        title: [{ uid: 7, name: 'Gestión Comercial y Empresarial' }]
       },
       {
         id: 3,
@@ -237,7 +252,8 @@ export class FakeBackendService implements InMemoryDbService {
         municipe: { uid: 9, name: 'Motril', uidProv: 4},
         date: '11/07/2016',
         category: { uid: 2, name: 'Informática y Comunicaciones' },
-        title: [{ uid: 4, name: 'Desarrollo Aplicaciones Multiplataforma' }]
+        title: [{uid: 1, name: 'Técnico Superior en Desarrollo de Aplicaciones Web', uidCategory: 2, uidGrade: 3},
+          { uid: 6, name: 'Desarrollo Aplicaciones Multiplataforma', uidCategory: 2, uidGrade: 1}]
       },
       {
         id: 4,
@@ -253,9 +269,9 @@ export class FakeBackendService implements InMemoryDbService {
         municipe: { uid: 5, name: 'Osuna', uidProv: 2 },
         date: '01/12/2015',
         category: { uid: 5, name: 'Administración y Gestión' },
-        title: [{ uid: 6, name: 'Empresariales' }]
+        title: [{ uid: 8, name: 'Empresariales', uidCategory: 4, uidGrade: 1}]
       }
     ];
-    return { users, documents, levels, provinces, municipes, categories, grades, institutions, languages, levelsLan, offers };
+    return { users, documents, levels, provinces, municipes, categories, grades, institutions, languages, levelsLan, titles, offers };
   }
 }

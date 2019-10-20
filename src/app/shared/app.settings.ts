@@ -28,10 +28,14 @@ export class AppSettings {
     AppSettings.API_ENDPOINT + 'grades';
   public static readonly API_ENDPOINT_CATEGORIES =
     AppSettings.API_ENDPOINT + 'categories';
+  public static readonly API_ENDPOINT_TITLES =
+    AppSettings.API_ENDPOINT + 'titles';
   public static readonly API_ENDPOINT_LANGUAGES =
     AppSettings.API_ENDPOINT + 'languages';
   public static readonly API_ENDPOINT_LEVELS_LAN =
     AppSettings.API_ENDPOINT + 'levelsLan';
+  public static readonly API_ENDPOINT_OFFERS =
+    AppSettings.API_ENDPOINT + 'offers';
   public static readonly API_ENDPOINT_USER_CREATE =
     AppSettings.API_ENDPOINT_USER + '/create';
   public static readonly API_ENDPOINT_CONFIRM_USER =

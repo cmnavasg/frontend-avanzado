@@ -27,13 +27,17 @@
   overflow: auto;
   vertical-align: top;
   .campo {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin: auto;
+    margin-top: 0.5em;
+    width: 90%;
     font-size: 22px;
     .alert {
-      width: 70%;
-      float: right;
-      margin: auto;
+      width: 100%;
+      font-size: 20px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      overflow: auto;
+      display: block;
     }
     .bloqueCampo{
       width: 100%;
@@ -43,13 +47,19 @@
         display: block;
         float: left;
       }
-      input {
+      .input-group {
         width: 68%;
         font-size: 17px;
       }
     }
   }
 }
+#usuNoEncontrado {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .login_container {
   display: flex;
   justify-content: center;

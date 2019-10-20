@@ -14,6 +14,8 @@ import { ProfileAccountComponent } from './views/profile-account/profile-account
 import { ProfileStudyComponent } from './views/profile-study/profile-study.component';
 import { ProfileLanguageComponent } from './views/profile-language/profile-language.component';
 import {DashboardComponent} from './views/dashboard/dashboard.component';
+import {OffersComponent} from './views/offers/offers.component';
+import { OffersDetailComponent } from './views/offers-detail/offers-detail.component';
 
 @NgModule({
   imports: [
@@ -31,7 +33,9 @@ import {DashboardComponent} from './views/dashboard/dashboard.component';
   ProfileAccountComponent,
   ProfileStudyComponent,
   ProfileLanguageComponent,
-  DashboardComponent],
+  DashboardComponent,
+  OffersComponent,
+  OffersDetailComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

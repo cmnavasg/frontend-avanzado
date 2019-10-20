@@ -5,8 +5,17 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 import {DocumentType, Municipe, Province, User} from '../models/user.model';
 import {catchError, tap} from 'rxjs/operators';
-import {Category, Grade, Institution, LevelStudy, Study} from '../models/study.model';
-import {LanguageLevel, LanguageName} from '../models/language.model';
+import {
+  Category,
+  CollegeStudy,
+  Grade,
+  Institution,
+  LevelStudy,
+  Study,
+  TitleStudy,
+  VocationalStudy
+} from '../models/study.model';
+import {Language, LanguageLevel, LanguageName} from '../models/language.model';
 /* import { AppStore } from '../states/store.inteface';
 import { Store } from '@ngrx/store';
 import * as UserActions from 'app/shared/states/user/actions';
@@ -141,9 +150,7 @@ export class ProfileService {
 
   getProvinciasIn() {
     this.getProvinces().then(
-
       res => {
-        console.log(res);
         this.allProvinces = res;
       },
       error => {
@@ -160,7 +167,6 @@ export class ProfileService {
   getMunicipes(uidProv): Observable<Municipe[]> {
     const params = new HttpParams()
       .set('uidProv', uidProv);
-    console.log(this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_MUNICIPES, {params}));
     return this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_MUNICIPES, {params});
   }
 
@@ -168,7 +174,39 @@ export class ProfileService {
     return this.http.get<LevelStudy[]>(AppSettings.API_ENDPOINT_LEVELS);
   }
 
+  getLevel(uidLevel): Observable<LevelStudy[]> {
+    const params = new HttpParams()
+      .set('uid', uidLevel);
+    return this.http.get<LevelStudy[]>(AppSettings.API_ENDPOINT_LEVELS, {params});
+  }
+
+  getInstitution(uidInstitution): Observable<Institution[]> {
+    const params = new HttpParams()
+      .set('uid', uidInstitution);
+    return this.http.get<Institution[]>(AppSettings.API_ENDPOINT_INSTITUTIONS, {params});
+  }
+
+  getCategory(uidCategory): Observable<Category[]> {
+    const params = new HttpParams()
+      .set('uid', uidCategory);
+    return this.http.get<Category[]>(AppSettings.API_ENDPOINT_CATEGORIES, {params});
+  }
+
+  getGrade(uidGrade): Observable<Grade[]> {
+    const params = new HttpParams()
+      .set('uid', uidGrade);
+    return this.http.get<Grade[]>(AppSettings.API_ENDPOINT_GRADES, {params});
+  }
+
+  getTitle(uidTitle): Observable<TitleStudy[]> {
+    const params = new HttpParams()
+      .set('uid', uidTitle);
+    return this.http.get<TitleStudy[]>(AppSettings.API_ENDPOINT_TITLES, {params});
+  }
+
   getEstudio(uid, studies) {
+    console.log(studies.find(
+      (study) => (study.uid).toString() === uid));
     return studies.find(
       (study) => (study.uid).toString() === uid
     );
@@ -176,21 +214,18 @@ export class ProfileService {
   recuperarTipoDocumento(uid) {
     const params = new HttpParams()
       .set('uid', uid);
-    console.log(this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_DOCUMENTS, {params}));
     return this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_DOCUMENTS, {params});
   }
 
   getProvincia(uid) {
     const params = new HttpParams()
       .set('uid', uid);
-    console.log(this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_PROVINCES, {params}));
     return this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_PROVINCES, {params}).toPromise();
   }
 
   getMunicipio(uid) {
     const params = new HttpParams()
       .set('uid', uid);
-    console.log(this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_MUNICIPES, {params}));
     return this.http.get<Municipe[]>(AppSettings.API_ENDPOINT_MUNICIPES, {params}).toPromise();
   }
 
@@ -210,8 +245,65 @@ export class ProfileService {
     return this.http.get<Category[]>(AppSettings.API_ENDPOINT_CATEGORIES);
   }
 
-  getCiclos() {
+  getTitles(): Observable<TitleStudy[]> {
+    return this.http.get<TitleStudy[]>(AppSettings.API_ENDPOINT_TITLES);
+  }
 
+  getCiclos(uidCategory, uidGrade): Observable<TitleStudy[]> {
+    if (uidCategory == null) {
+      const params = new HttpParams()
+        .set('uidGrade', uidGrade);
+      return this.http.get<TitleStudy[]>(AppSettings.API_ENDPOINT_TITLES, {params});
+    } else if (uidGrade == null) {
+        const params = new HttpParams()
+          .set('uidCategory', uidCategory);
+        return this.http.get<TitleStudy[]>(AppSettings.API_ENDPOINT_TITLES, {params});
+    } else {
+      const params = new HttpParams()
+        .set('uidCategory', uidCategory)
+        .set('uidGrade', uidGrade);
+      return this.http.get<TitleStudy[]>(AppSettings.API_ENDPOINT_TITLES, {params});
+    }
+  }
+
+  updateOrSaveEstudio(study: VocationalStudy|CollegeStudy, user: User): Promise<User> {
+    if (study.uid) {
+      if (study.level.uid === 1) {
+        user.studies[study.uid - 1] = {} as CollegeStudy;
+        user.studies[study.uid - 1] = study;
+      } else if (study.level.uid === 2) {
+        user.studies[study.uid - 1] = {} as VocationalStudy;
+        user.studies[study.uid - 1] = study;
+      }
+    } else {
+      study.uid = user.studies.length + 1;
+      if (study.level.uid === 1) {
+        user.studies[study.uid - 1] = {} as CollegeStudy;
+        user.studies[study.uid - 1] = study;
+      } else if (study.level.uid === 2) {
+        user.studies[study.uid - 1] = {} as VocationalStudy;
+        user.studies[study.uid - 1] = study;
+      }
+    }
+    return this.updateUser(user).toPromise();
+  }
+
+  deleteStudy(uid: number, user: User): Promise<any> {
+    const study = this.getEstudio(uid.toString(), user.studies);
+    const index: number = user.studies.indexOf(study);
+    if (index !== -1) {
+      user.studies.splice(index, 1);
+    }
+    return this.updateUser(user).toPromise();
+  }
+
+  deleteLanguage(uid: number, user: User): Promise<any> {
+    const lang = this.getLanguage(uid.toString(), user.languages);
+    const index: number = user.languages.indexOf(lang);
+    if (index !== -1) {
+      user.languages.splice(index, 1);
+    }
+    return this.updateUser(user).toPromise();
   }
 
   getLanguage(uid, languages) {
@@ -223,9 +315,42 @@ export class ProfileService {
   getLanguages(): Observable<LanguageName[]> {
     return this.http.get<LanguageName[]>(AppSettings.API_ENDPOINT_LANGUAGES);
   }
+  getLevelLanguage(uid) {
+    const params = new HttpParams()
+      .set('uid', uid);
+    return this.http.get<LanguageLevel[]>(AppSettings.API_ENDPOINT_LEVELS_LAN, {params}).toPromise();
+  }
+
+  getLanguageName(uid) {
+    const params = new HttpParams()
+      .set('uid', uid);
+    return this.http.get<LanguageName[]>(AppSettings.API_ENDPOINT_LANGUAGES, {params}).toPromise();
+  }
 
   getLevelsLanguage(): Observable<LanguageLevel[]> {
     return this.http.get<LanguageLevel[]>(AppSettings.API_ENDPOINT_LEVELS_LAN);
+  }
+
+  updateOrSaveLanguage(language: Language, user: User): Promise<User> {
+    if (language.uid) {
+      user.languages[language.uid - 1] = language;
+    } else {
+      language.uid = user.languages.length + 1;
+      user.languages[language.uid - 1] = language;
+    }
+    return this.updateUser(user).toPromise();
+  }
+
+  getDistinctTitles(user: User) {
+      const result = [];
+      const allTitles = user.studies;
+      for (let i = 0; i < allTitles.length; i++) {
+        if (result.indexOf(user.studies[i].title.uid) === -1) {
+          console.log(user.studies[i].title.uid);
+          result.push(user.studies[i].title.uid);
+        }
+      }
+      return result;
   }
 /*  editAccount(user: User): Observable<any> {
     return this.http.put(AppSettings.API_ENDPOINT_USER, user, httpOptions).pipe(
