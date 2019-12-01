@@ -1,43 +1,34 @@
-<form [formGroup]="rForm" (submit)="submit()">
-  <div class="form-group">
-    <label for="level">Nivel</label>
-    <select
-      [compareWith]="compareLevel"
-      class="col-sm-10 form-control"
-      name="level"
-      formControlName="level"
-    >
-      <option [ngValue]="level" *ngFor="let level of languageLevels">
-        {{ level.name }}</option
-      >
-    </select>
+<form fxFlex  [formGroup]="rForm" (ngSubmit)="submit()">
+  <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+    <div fxFlexFill>
+      <mat-form-field class="w-25">
+        <mat-label>Nivel</mat-label>
+        <mat-select formControlName="level" name="level" [compareWith]="compareLevel">
+          <mat-option *ngFor="let level of languageLevels" [value]="level">
+            {{level.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-25">
+        <mat-label>Idioma</mat-label>
+        <mat-select formControlName="name" name="name" [compareWith]="compareName">
+          <mat-option *ngFor="let name of languageNames" [value]="name">
+            {{name.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-25">
+        <mat-label>Fecha de obtención del título</mat-label>
+        <input matInput [matDatepicker]="date" formControlName="date" placeholder="dd/mm/yyyy">
+        <mat-datepicker-toggle matSuffix [for]="date" ></mat-datepicker-toggle>
+        <mat-datepicker #date></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+    <div fxFlexFill>
+      <button class="flotarDerecha" mat-raised-button type="submit" color="primary" [disabled]="rForm.invalid">Guardar</button>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="name">Idioma</label>
-    <select
-      class="col-sm-10 form-control"
-      name="name"
-      formControlName="name"
-      [compareWith]="compareName"
-    >
-      <option [ngValue]="name" *ngFor="let name of languageNames">
-        {{ name.name }}</option
-      >
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="date">Fecha de obtención del título</label>
-    <input
-      type="text"
-      name="date"
-      class="col-sm-10 form-control"
-      formControlName="date"
-    />
-  </div>
-
-  <button class="btn btn-primary" type="submit" [disabled]="rForm.invalid">
-    Guardar
-  </button>
 </form>

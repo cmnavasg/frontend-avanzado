@@ -1,11 +1,17 @@
-<h2>
+<h2 color="warn">
   Profile
 </h2>
 <!-- <div *ngIf="userRol === 'student'"> -->
-<app-profile-student></app-profile-student>
+<app-profile-student
+  [user]="user$ | async"
+  (onDeleteStudy)="updateUser($event)"
+  (onDeleteLanguage)="updateUser($event)"
+  (onDeleteExperience)="updateUser($event)"
+>
+</app-profile-student>
 <!-- </div> -->
 
 <!-- <div *ngIf="userRol === 'company'">
 	<app-profile-company> </app-profile-company>
-	
+
 </div> -->

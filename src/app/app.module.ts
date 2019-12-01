@@ -1,41 +1,62 @@
-import { AppComponent } from './app.component';
-import { CoreModule } from './shared/core.module';
-import { FakeBackendService } from './shared/inmemory-db/fake-backend.service';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { HttpClientModule } from '@angular/common/http';
+import { LayoutModule } from '@angular/cdk/layout';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from './shared/shared.module';
+import {
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule
+} from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import {FakeBackendService} from './shared/inmemory-db/fake-backend.service';
+import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
+import {RouterModule} from '@angular/router';
 import { rootRouterConfig } from './app-routing';
-import {EffectsModule} from '@ngrx/effects';
-import {StoreModule} from '@ngrx/store';
-import {reducers} from './shared/state/root.reducer';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {environment} from '../environments/environment';
-import {AuthEffects} from './shared/state/auth';
-import {SigninService} from './views/signin/signin.service';
-import {ProfileStudentEffects} from './shared/state/user';
-import {StudiesEffects} from './shared/state/user/profile-student/studies.effects';
-import {LanguagesEffects} from './shared/state/user/profile-student/languages.effects';
-import {OffersEffects} from './shared/state/offers/offers.effects';
+import {CoreModule} from './shared/core.module';
+import {SharedModule} from './shared/shared.module';
+// AoT requires an exported function for factories
+export const createTranslateLoader = (http: HttpClient) => {
+    /* for development
+    return new TranslateHttpLoader(
+        http,
+        '/start-javascript/sb-admin-material/master/dist/assets/i18n/',
+        '.json'
+    );*/
+    return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+};
 
 @NgModule({
-  imports: [
-    SharedModule,
-    CoreModule,
-    RouterModule.forRoot(rootRouterConfig, { useHash: false }),
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(FakeBackendService, {
-      dataEncapsulation: false
-    }),
-    StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument({
-      logOnly: !environment.production, // Restrict extension to log-only mode
-    }),
-    EffectsModule.forRoot([AuthEffects, ProfileStudentEffects, StudiesEffects, LanguagesEffects, OffersEffects])
-  ],
-  declarations: [AppComponent],
-  providers: [SigninService],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+//        AppRoutingModule,
+        BrowserAnimationsModule,
+//        LayoutModule,
+        OverlayModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
+        SharedModule,
+        CoreModule,
+        RouterModule.forRoot(rootRouterConfig, { useHash: false }),
+        HttpClientInMemoryWebApiModule.forRoot(FakeBackendService, {
+          dataEncapsulation: false, passThruUnknownUrl: true
+        })
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

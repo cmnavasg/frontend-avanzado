@@ -1,6 +1,8 @@
 export interface Experience {
   uid: number;
-  company: string;
-  position: string;
-  date: string;
+  empresa: string;
+  puesto: string;
+  date_inicio: string;
+  date_fin: string;
+  tareas: string;
 }

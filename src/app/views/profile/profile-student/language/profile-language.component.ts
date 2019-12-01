@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ProfileService } from '../../../../shared/services/profile.service';
 import { MockData } from 'src/app/shared/mock-data';
 import {
   Language,
@@ -9,62 +15,63 @@ import {
   LanguageName
 } from 'src/app/shared/models/language.model';
 import { dateValidator } from 'src/app/shared/directives/date-validator.directive';
-import * as LanguagesAction from '../../../../shared/state/user/profile-student/languages.actions';
-import {Store} from '@ngrx/store';
-import {AppStore} from '../../../../shared/state/store.interface';
-import * as ProfileStudentActions from '../../../../shared/state/user';
-import * as UserStudentSelectors from '../../../../shared/state/user/profile-student/profile-student.selector';
-import {User} from '../../../../shared/models/user.model';
+import { User } from 'src/app/shared/models/user.model';
+import {Router} from '@angular/router';
+import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
+import {APP_DATE_FORMATS, AppDateAdapter} from '../../../../shared/inmemory-db/format-datepicker';
 
 @Component({
   selector: 'app-profile-language',
   templateUrl: './profile-language.component.html',
-  styleUrls: ['./profile-language.component.scss']
+  styleUrls: ['./profile-language.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
-export class ProfileLanguageComponent implements OnInit {
+export class ProfileLanguageComponent implements OnInit, OnChanges {
+  @Input() language: Language = {} as Language;
+  @Input() user: User = {} as User;
+  @Output() save: EventEmitter<User> = new EventEmitter();
+  @Output() update: EventEmitter<User> = new EventEmitter();
+
   rForm: FormGroup;
-  language: Language = {} as Language;
   languageLevels: LanguageLevel[];
   languageNames: LanguageName[];
-  user: User;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<AppStore>
-  ) {
-    this.store.dispatch(new ProfileStudentActions.GetProfile());
-    this.store.select(UserStudentSelectors.selectUser).subscribe(userSel => {
-      if (userSel != null) {
-        this.user = userSel;
-        this.route.params.subscribe(params => {
-          const uid = +params.uid;
-          this.language = (this.user.languages.find(language => language.uid === uid) ||
-              {}) as Language;
-        });
-      }
-    });
-  }
+  constructor(private router: Router) {}
   ngOnInit() {
     this.loadSelectProperties();
-    this.loadFormInstance();
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    let language = {} as Language;
+    if (this.hasChangeLanguage(changes.language)) {
+      language = changes.language.currentValue;
+    }
+    this.loadFormInstance(language);
+  }
+  private hasChangeLanguage(language) {
+    return language && language.currentValue;
   }
   public loadSelectProperties(): void {
     this.languageLevels = MockData.LANGUAGES_LEVEL;
     this.languageNames = MockData.LANGUAGES_NAME;
   }
 
-  public loadFormInstance(): void {
+  public loadFormInstance(language: Language): void {
     this.rForm = new FormGroup({
-      level: new FormControl(this.language.level, [Validators.required]),
-      name: new FormControl(this.language.name, [Validators.required]),
-      date: new FormControl(this.language.date, [
+      level: new FormControl(language.level, [Validators.required]),
+      name: new FormControl(language.name, [Validators.required]),
+      date: new FormControl(new Date(language.date), [
         Validators.required,
         dateValidator()
       ])
     });
   }
   public submit() {
+    if (this.rForm.controls['date'].value) {
+      this.rForm.controls['date'].setValue(this.formateaFecha(this.rForm.controls['date'].value));
+    }
     this.saveOrUpdate({ ...this.language, ...this.rForm.value });
   }
 
@@ -74,27 +81,42 @@ export class ProfileLanguageComponent implements OnInit {
   compareName(option1, option2) {
     return option1.uid === (option2 && option2.uid);
   }
-  private update(language: Language) {
-    const languages = this.user.languages;
-    const foundIndex = languages.findIndex(
-      _language => _language.uid === language.uid
+  private _update(language: Language) {
+    const languages = this.user.languages.map(_language =>
+      _language.uid === language.uid ? language : _language
     );
-    languages[foundIndex] = language;
-    this.store.dispatch(new LanguagesAction.UpdateLanguage({...this.user, languages}));
+    const user = {
+      ...this.user,
+      languages
+    };
+    this.update.emit(user);
+    this.router.navigate(['/admin/profile']);
   }
-  private save(language: Language) {
+  private _save(language: Language) {
     const _language = MockData.fakeIncreaseID<Language>(
       this.user.languages,
       language
     );
-    this.user.languages = [...this.user.languages, _language];
-    this.store.dispatch(new LanguagesAction.CreateLanguage(this.user));
+    const languages = [...this.user.languages, _language];
+    const user = {
+      ...this.user,
+      languages
+    };
+    this.save.emit(user);
+    this.router.navigate(['/admin/profile']);
   }
 
   saveOrUpdate(language: Language) {
-    this.isNew() ? this.save(language) : this.update(language);
+    this.isNew() ? this._save(language) : this._update(language);
   }
   public isNew(): boolean {
-    return !!!this.language.uid;
+    return !!!this.language;
+  }
+
+  public formateaFecha (fecha: Date) {
+    const day = fecha.getDate();
+    const month = fecha.getMonth() + 1;
+    const year = fecha.getFullYear();
+    return day + '/' + month + '/' + year;
   }
 }

@@ -1,28 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { OffersService } from 'src/app/shared/services/offers.service';
 import { Offer } from 'src/app/shared/models/offer.model';
-import {Store} from '@ngrx/store';
-import {AppStore} from '../../../shared/state/store.interface';
-import * as UserStudentSelectors from '../../../shared/state/user/profile-student/profile-student.selector';
-import * as ProfileStudentActions from '../../../shared/state/user';
+import { ProfileService } from 'src/app/shared/services/profile.service';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-offers-profile',
-  templateUrl: './offers-profile.component.html'
+  templateUrl: './offers-profile.component.html',
+  styleUrls: ['./offers-profile.component.scss']
 })
-export class OffersProfileComponent implements OnInit {
+export class OffersProfileComponent implements OnChanges {
+  @Input() user: User;
   offers: Offer[] = [];
-  constructor(private store: Store<AppStore>) {
-    this.selectOffers();
+  displayedColumnsOffers = ['puesto', 'empresa', 'familia', 'fecha', 'provincia', 'municipio', 'acciones'];
+  constructor() {}
+  ngOnChanges() {
+    this.offers = this.user.offers;
+    console.log(this.offers);
   }
-
-  private selectOffers() {
-    this.store.dispatch(new ProfileStudentActions.GetProfile());
-    this.store.select(UserStudentSelectors.selectUser).subscribe(userSel => {
-      if (userSel != null) {
-        this.offers = userSel.offers;
-      }
-    });
-  }
-
-  ngOnInit() {}
 }

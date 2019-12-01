@@ -1,20 +1,36 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  Input,
+  OnInit,
+  SimpleChanges,
+  OnChanges
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   VocationalStudy,
   Institution,
   Category,
   TitleStudy,
-  Grade
+  Grade,
+  CollegeStudy
 } from 'src/app/shared/models/study.model';
 import { MockData } from 'src/app/shared/mock-data';
 import { dateValidator } from 'src/app/shared/directives/date-validator.directive';
+import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
+import {APP_DATE_FORMATS, AppDateAdapter} from '../../../../../shared/inmemory-db/format-datepicker';
 
 @Component({
   selector: 'app-vocational-form',
-  templateUrl: './vocational-form.component.html'
+  templateUrl: './vocational-form.component.html',
+  styleUrls: ['../../profile-student.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
-export class VocationalFormComponent implements OnInit {
+export class VocationalFormComponent implements OnInit, OnChanges {
   @Output() onSave: EventEmitter<VocationalStudy> = new EventEmitter();
   @Input() study: VocationalStudy = {} as VocationalStudy;
   public institutions: Institution[];
@@ -26,7 +42,17 @@ export class VocationalFormComponent implements OnInit {
   constructor() {}
   ngOnInit() {
     this.loadSelectProperties();
-    this.loadFormInstance();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    let study = {} as VocationalStudy;
+    if (this.hasChangeStudy(changes.study)) {
+      study = changes.study.currentValue;
+    }
+    this.loadFormInstance(study);
+  }
+  private hasChangeStudy(study) {
+    return study && study.currentValue;
   }
 
   public loadSelectProperties(): void {
@@ -36,24 +62,21 @@ export class VocationalFormComponent implements OnInit {
     this.grades = MockData.VOCATIONAL_GRADES;
   }
 
-  public loadFormInstance(): void {
+  public loadFormInstance(study: VocationalStudy): void {
+    console.log(study);
     this.rForm = new FormGroup({
-      institution: new FormControl(this.study.institution, [
-        Validators.required
-      ]),
-      category: new FormControl(this.study.category, [Validators.required]),
-      grade: new FormControl(this.study.grade, [Validators.required]),
-      title: new FormControl(this.study.title, [Validators.required]),
-      date: new FormControl(this.study.date, [
-        Validators.required,
-        dateValidator()
-      ]),
-      dual: new FormControl(this.study.dual, []),
-      bilingue: new FormControl(this.study.bilingue, [])
+      institution: new FormControl(study.institution, [Validators.required]),
+      category: new FormControl(study.category, [Validators.required]),
+      grade: new FormControl(study.grade, [Validators.required]),
+      title: new FormControl(study.title, [Validators.required]),
+      date: new FormControl(new Date(study.date)),
+      dual: new FormControl(study.dual, []),
+      bilingue: new FormControl(study.bilingue, [])
     });
   }
 
   public submit() {
+    this.rForm.controls['date'].setValue(this.formateaFecha(this.rForm.controls['date'].value));
     this.onSave.emit({ ...this.study, ...this.rForm.value });
   }
 
@@ -79,5 +102,12 @@ export class VocationalFormComponent implements OnInit {
       ...this.rForm.value
     };
     this.onSave.emit(study);
+  }
+
+  public formateaFecha (fecha: Date) {
+    const day = fecha.getDate();
+    const month = fecha.getMonth() + 1;
+    const year = fecha.getFullYear();
+    return day + '/' + month + '/' + year;
   }
 }

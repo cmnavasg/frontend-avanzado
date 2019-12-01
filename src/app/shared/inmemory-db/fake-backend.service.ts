@@ -25,7 +25,7 @@ export class FakeBackendService implements InMemoryDbService {
           province: { uid: 4, name: 'Cádiz' },
           municipe: { uid: 6, name: 'Chiclana de la Frontera' }
         },
-        avatar_hash: 'assets/img/perfil.png',
+        avatar_hash: '../../assets/images/perfil.png',
         studies: [
           {
             uid: 1,
@@ -67,7 +67,6 @@ export class FakeBackendService implements InMemoryDbService {
             certificate: false
           }
         ],
-        experiencies: [],
         languages: [
           {
             uid: 1,
@@ -82,28 +81,26 @@ export class FakeBackendService implements InMemoryDbService {
             date: '30/06/1998'
           }
         ],
-        offers: []
-        /*         experiences: [
+        offers: [],
+        experiencies: [
           {
-            id: 0,
-            eid: 0,
+            uid: 1,
             empresa: 'Suma',
-            date_incio: '1548320228',
-            date_fin: '1548320228',
+            date_inicio: '30/06/2005',
+            date_fin: '30/06/2010',
             puesto: 'Junior',
             tareas: 'Desarrollador front-end'
           },
           {
-            id: 0,
-            eid: 1,
+            uid: 2,
             empresa: 'Indra',
-            date_incio: '1548320228',
-            date_fin: '1548320228',
+            date_inicio: '31/06/2010',
+            date_fin: '28/05/2018',
             puesto: 'Ingeniero',
             tareas: 'Desarrollador back-end'
           }
-        ],
-        languages: [
+        ]
+   /*     languages: [
           { id: 0, lid: 0, idioma: 'Inglés', nivel: 'B2', date: '30/06/2008' },
           {
             id: 0,

@@ -1,14 +1,26 @@
-
-
 #contenido{
 	padding-top:4em;
 }
-td{
-	padding-left:2em;
-}
-#foto-perfil, #datosPersonales{
+#foto-perfil{
 	width:25%;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.datosPersonales {
+  table {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  th {
+    width: 35%;
+    text-align: left;
+  }
+  td {
+    text-align: left;
+  }
 }
 
 #otra_info{
@@ -19,5 +31,55 @@ td{
 	padding-left:1em;
 }
 h2{
-	margin-top:2em;
+	margin-top:0.5em;
+}
+
+.mat-table {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.botonNew{
+  width: 23%;
+  padding-top: 20px;
+  float: right;
+  cursor: pointer;
+}
+.w-40 {
+  width: 40%;
+  margin-left: 2%;
+  margin-right: 8%;
+  float: left;
+}
+
+.w-10 {
+  width: 10%;
+  margin-left: 2%;
+  margin-right: 8%;
+  float: left;
+}
+
+.flotarDerecha {
+  float: right;
+  margin-right: 8%;
+}
+
+.fila {
+  display: block;
+  overflow: auto;
+  width:100%;
+}
+
+table {
+  width: 100%;
+}
+th {
+  text-align: center;
+}
+td{
+  text-align: center;
 }

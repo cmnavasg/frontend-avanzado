@@ -6,7 +6,13 @@
     [notificPanel]="notificationPanel"
   >
   </app-header-top> -->
-<div class="row">
+
+<app-topnav></app-topnav>
+<app-sidebar></app-sidebar>
+<div class="main-container">
+  <router-outlet></router-outlet>
+</div>
+<!--<div class="row">
   <div class="col-3">
     <ul>
       <li><a routerLink="/">Logout</a></li>
@@ -25,5 +31,5 @@
   <div class="col-9">
     <router-outlet></router-outlet>
   </div>
-</div>
+</div>-->
 <!-- </div> -->

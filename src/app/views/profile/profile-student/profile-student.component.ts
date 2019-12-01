@@ -1,11 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/shared/models/user.model';
-import * as StudiesActions from '../../../shared/state/user/profile-student/studies.actions';
-import * as LanguagesAction from '../../../shared/state/user/profile-student/languages.actions';
-import {Store} from '@ngrx/store';
-import {AppStore} from '../../../shared/state/store.interface';
-import * as UserStudentSelectors from '../../../shared/state/user/profile-student/profile-student.selector';
-import * as ProfileStudentActions from '../../../shared/state/user/profile-student/profile-student.actions';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-profile-student',
@@ -13,38 +8,59 @@ import * as ProfileStudentActions from '../../../shared/state/user/profile-stude
   styleUrls: ['./profile-student.component.scss']
 })
 export class ProfileStudentComponent {
-  user: User;
-
-  constructor(private store: Store<AppStore>) {
-    this.store.dispatch(new ProfileStudentActions.GetProfile());
-    this.store.select(UserStudentSelectors.selectUser).subscribe(userSel => {
-      if (userSel != null) {
-        this.user = userSel;
-      }
-    });
-  }
+  constructor() {}
+  @Input() user: User;
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output() onDeleteStudy: EventEmitter<User> = new EventEmitter();
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output() onDeleteLanguage: EventEmitter<User> = new EventEmitter();
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output() onDeleteExperience: EventEmitter<User> = new EventEmitter();
+  displayedColumnsStudies = ['tipo', 'nivel', 'titulo', 'centro', 'fecha', 'certificado', 'bilingue', 'dual', 'acciones'];
+  displayedColumnsLanguages = ['nivel', 'idioma', 'fecha', 'acciones'];
+  displayedColumnsExperiencies = ['empresa', 'date_inicio', 'date_fin', 'puesto', 'acciones'];
 
   deleteStudy(studyID: number) {
-    const studies = this.user.studies;
+    const studies = [...this.user.studies];
     const index = studies.findIndex(study => study.uid === studyID);
     if (index === -1) {
       alert('Error: Study not found');
       return;
     }
     studies.splice(index, 1);
-
-    this.store.dispatch(new StudiesActions.DeleteStudy(this.user));
+    const user = {
+      ...this.user,
+      studies
+    };
+    this.onDeleteStudy.emit(user);
   }
-
-  deleteLanguage(languageID: number) {
-    const languages = this.user.languages;
+  deleteLanguage(languageID: any) {
+    const languages = [...this.user.languages];
     const index = languages.findIndex(language => language.uid === languageID);
     if (index === -1) {
       alert('Error: Language not found');
       return;
     }
     languages.splice(index, 1);
+    const user = {
+      ...this.user,
+      languages
+    };
+    this.onDeleteLanguage.emit(user);
+  }
 
-    this.store.dispatch(new LanguagesAction.DeleteLanguage(this.user));
+  deleteExperience(experienceID: any) {
+    const experiencies = [...this.user.experiencies];
+    const index = experiencies.findIndex(experience => experience.uid === experienceID);
+    if (index === -1) {
+      alert('Error: Experience not found');
+      return;
+    }
+    experiencies.splice(index, 1);
+    const user = {
+      ...this.user,
+      experiencies
+    };
+    this.onDeleteExperience.emit(user);
   }
 }

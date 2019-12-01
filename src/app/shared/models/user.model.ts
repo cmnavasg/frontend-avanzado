@@ -1,5 +1,4 @@
-import { AppSettings } from '../app.settings';
-import { Study, VocationalStudy, CollegeStudy } from './study.model';
+import { VocationalStudy, CollegeStudy } from './study.model';
 import { Language } from './language.model';
 import { Offer } from './offer.model';
 import { Experience } from './experience.model';
@@ -33,7 +32,6 @@ export interface User {
   birthdate: string;
   phone: string;
   phone2: string;
-
   email: string;
   documentNumber: string;
   documentType: DocumentType;
@@ -49,12 +47,6 @@ export interface User {
   offers: Offer[];
 }
 
-export interface Credentials {
-  username: string;
-  password: string;
-}
-
-/*
 export function createNewUser(user?: User): User {
   return {
     ...user,
@@ -62,37 +54,10 @@ export function createNewUser(user?: User): User {
     surname: '',
     id: -1,
     email: '',
-    roles: [''], */
+    roles: [''],
     /*  avatar_hash: this.avatar_hash || null, */
-/*    experiencies: [],
-    studies: [],
-    languages: [],
-    offers: []
-  };
-}
-*/
-
-export function createNewUser(): User {
-  return {
-    password: '',
-    id: null,
-    username: '',
-    name: '',
-    surname: '',
-    birthdate: '',
-    phone: '',
-    phone2: '',
-    email: '',
-    documentNumber: '',
-    documentType: null,
-    aboutMe: '',
-    otherCompetences: '',
-    license: '',
-    avatar_hash: '',
-    address: null,
-    roles: [],
-    studies: [],
     experiencies: [],
+    studies: [],
     languages: [],
     offers: []
   };

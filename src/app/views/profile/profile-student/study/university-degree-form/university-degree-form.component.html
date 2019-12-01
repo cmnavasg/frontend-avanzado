@@ -1,44 +1,33 @@
-<form [formGroup]="rForm" (submit)="submit()">
-  <div class="form-group">
-    <label for="institution">Centro educativo</label>
-    <input
-      type="text"
-      class="col-sm-10 form-control"
-      name="institution"
-      formControlName="institution"
-    />
+<form fxFlex [formGroup]="rForm" (ngSubmit)="submit()">
+  <div fxFlex  fxlayout="row" class="fila" fxlayout.lt-md="column">
+    <div fxFlexFill>
+      <mat-form-field class="w-40">
+        <mat-label>Centro educativo</mat-label>
+        <input matInput formControlName="institution" >
+      </mat-form-field>
+      <mat-form-field class="w-40">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" >
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxFlex  fxlayout="row" class="fila" fxlayout.lt-md="column">
+     <div fxFlexFill>
+        <mat-form-field class="w-40">
+            <mat-label>Fecha de obtención del título</mat-label>
+            <input matInput [matDatepicker]="date" formControlName="date" placeholder="dd/mm/yyyy">
+            <mat-datepicker-toggle matSuffix [for]="date" ></mat-datepicker-toggle>
+            <mat-datepicker #date></mat-datepicker>
+         </mat-form-field>
+      <div class="w-40">
+        <mat-checkbox formControlName="bilingue" color="primary">Bilingüe</mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div fxFlex  fxLayout="row" class="fila" fxLayout.lt-md="column">
+    <div fxFlexFill>
+      <button class="flotarDerecha" mat-raised-button type="submit" color="primary" [disabled]="rForm.invalid">Guardar</button>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="title">Título</label>
-    <input
-      type="text"
-      class="col-sm-10 form-control"
-      name="title"
-      formControlName="title"
-    />
-  </div>
-
-  <div class="form-group">
-    <label for="date">Fecha de obtención del título</label>
-    <input
-      type="text"
-      name="date"
-      class="col-sm-10 form-control"
-      formControlName="date"
-    />
-  </div>
-  <div class="form-group">
-    <label for="bilingue">Bilingue</label>
-    <input
-      type="checkbox"
-      name="bilingue"
-      class="form-check-input"
-      formControlName="bilingue"
-    />
-  </div>
-
-  <button class="btn btn-primary" type="submit" [disabled]="rForm.invalid">
-    Guardar
-  </button>
 </form>

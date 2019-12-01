@@ -15,7 +15,7 @@ export const rootRouterConfig: Routes = [
       import('./views/signin/signin.module').then(m => m.SigninModule),
     data: { title: 'Signin' }
   },
-  {
+/*  {
     path: 'forgot-password',
     loadChildren: () =>
       import('./views/forgot-password/forgot-password.module').then(
@@ -28,7 +28,7 @@ export const rootRouterConfig: Routes = [
     loadChildren: () =>
       import('./views/signup/signup.module').then(m => m.SignupModule),
     data: { title: 'Signup' }
-  },
+  }, */
   {
     path: 'admin',
     component: AdminLayoutComponent,
@@ -50,6 +50,18 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Profile', breadcrumb: 'PROFILE' }
       },
       {
+        path: 'offers',
+        loadChildren: () =>
+          import('./views/offers/offers.module').then(m => m.OffersModule),
+        data: { title: 'Offers', breadcrumb: 'Offers' }
+      },
+      {
+        path: 'config',
+        loadChildren: () =>
+          import('./views/settings/settings.module').then(m => m.SettingsModule),
+        data: { title: 'Settings', breadcrumb: 'Settings' }
+      }
+/*      {
         path: 'favorites',
         loadChildren: () =>
           import('./views/favorites/favorites.module').then(
@@ -64,6 +76,7 @@ export const rootRouterConfig: Routes = [
           import('./views/offers/offers.module').then(m => m.OffersModule),
         data: { title: 'Offers', breadcrumb: 'Offers' }
       }
+  */
     ]
   },
   {

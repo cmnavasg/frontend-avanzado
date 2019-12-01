@@ -1,27 +1,26 @@
-<form [formGroup]="studiesForm" (submit)="submit()">
-  <select
-    class="col-sm-10 form-control"
-    [compareWith]="compareOption"
-    formControlName="option"
-  >
-    <option selected>---</option>
-
-    <option [ngValue]="option" *ngFor="let option of options">{{
-      option.name
-    }}</option>
-  </select>
+<form fxFlex  [formGroup]="rForm" (ngSubmit)="submit()">
+  <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+    <div fxFlexFill>
+      <mat-form-field class="w-40">
+        <mat-label>Tipo formación</mat-label>
+        <mat-select formControlName="option" name="option" [compareWith]="compareOption">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
   <app-vocational-form
     *ngIf="isSelectVocational()"
     [study]="study"
     (onSave)="saveOrUpdate($event)"
-    (onExit)="exit($event)"
   ></app-vocational-form>
 
   <app-university-degree-form
     *ngIf="isSelectUniversity()"
     [study]="study"
     (onSave)="saveOrUpdate($event)"
-    (onExit)="exit($event)"
   ></app-university-degree-form>
 </form>

@@ -2,19 +2,53 @@
   Offers Detail
 </h2>
 
-<pre>{{ offer | json }} </pre>
+<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="20px">
+  <div fxFlex >
+    <mat-card style="overflow: auto">
+      <mat-card-header style="justify-content: center">
+        <mat-card-title>
+          <h3 class="m-0">{{ offer.company.name }}</h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <section class="float-left datosPersonales">
+          <table>
+            <tbody>
+            <tr>
+              <th>Puesto</th>
+              <td>{{ offer.job.name }}</td>
+            </tr>
+            <tr>
+              <th>Descripción</th>
+              <td>{{ offer.job.description }}</td>
+            </tr>
+            <tr>
+              <th>Provincia</th>
+              <td>{{ offer.province.name }}</td>
+            </tr>
+            <tr>
+              <th>Municipio</th>
+              <td>{{ offer.municipe.name }}</td>
+            </tr>
+            <tr>
+              <th>Fecha</th>
+              <td>{{ offer.date }}</td>
+            </tr>
+            <tr>
+              <th>Titulación requerida</th>
+              <div fxFlex *ngFor="let tit of offer.title">
+                <td>{{ tit.name}}</td>
+              </div>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
 
-<button
-  *ngIf="!isSubscribe()"
-  class="btn btn-primary"
-  (click)="subscribeOffer()"
->
-  Inscribirse
-</button>
-<button
-  *ngIf="isSubscribe()"
-  class="btn btn-danger"
-  (click)="unsubscribeOffer()"
->
-  Eliminar oferta
-</button>
+<div class="boton">
+  <app-stat [bgClass]="'danger'" *ngIf="!isSubscribe()" [icon]="'add_box'" [label]="'Inscribirse'" (click)="subscribe()"></app-stat>
+  <app-stat [bgClass]="'info'" *ngIf="isSubscribe()" [icon]="'indeterminate_check_box'" [label]="'Eliminar oferta'" (click)="unsubscribe()"></app-stat>
+</div>

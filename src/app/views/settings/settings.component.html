@@ -1,0 +1,34 @@
+<form fxFlex  [formGroup]="rForm" (ngSubmit)="submit()">
+  <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+    <div fxFlexFill>
+      <mat-form-field class="w-100">
+        <span class="mb-100 fila">Idioma</span>
+        <mat-label>Idioma</mat-label>
+        <mat-select formControlName="language" name="language">
+          <mat-option *ngFor="let language of languageNames" [value]="language">
+            {{language.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div flFlex flexLayout="row" flexLayout.lt-md="column">
+    <div fxFlex>
+      <span class="w-100 fila">Notificaciones de ofertas</span>
+      <mat-checkbox class="w-100 fila" formControlName="allSelected" color="primary">Seleccionar todos</mat-checkbox>
+      <div *ngFor="let province of provinces">
+        <div class="w-100" *ngIf="allSelected">
+          <mat-checkbox formControlName="province" color="primary" checked>{{province.name}}</mat-checkbox>
+        </div>
+        <div  class="w-100 fila" *ngIf="!allSelected">
+          <mat-checkbox formControlName="province" color="primary">{{province.name}}</mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex  fxLayout="row" class="fila" fxLayout.lt-md="column">
+    <div fxFlexFill>
+      <button class="flotarDerecha" mat-raised-button type="submit" color="primary" >Guardar</button>
+    </div>
+  </div>
+</form>

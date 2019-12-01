@@ -1,4 +1,67 @@
-<div id="contenido">
+<div *ngIf="user">
+  <div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="20px">
+    <div fxFlex >
+      <mat-card style="overflow: auto">
+        <div id="foto-perfil" class="img-fluid img-profile rounded-circle mx-auto mb-2">
+          <img mat-card-image [src]="user.avatar_hash">
+        </div>
+        <mat-card-header style="justify-content: center">
+          <mat-card-title>
+            <h3 class="m-0">{{ user.name + ' ' + user.surname }}</h3>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <section class="float-left datosPersonales">
+            <table>
+              <tbody>
+              <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <th>Fecha de nacimiento</th>
+                <td>{{ user.birthdate }}</td>
+              </tr>
+              <tr>
+                <th>Tel&eacute;fono</th>
+                <td>{{ user.phone }}</td>
+              </tr>
+              <tr>
+                <th>NIF/NIE</th>
+                <td>{{ user.documentNumber }}</td>
+              </tr>
+              <tr>
+                <th>Permisos de conducir</th>
+                <td>{{ user.license }}</td>
+              </tr>
+              <tr>
+                <th>Direccion</th>
+                <td>{{ user.address.street }}. {{ user.address.municipe.name }}, {{ user.address.province.name }}.</td>
+              </tr>
+              </tbody>
+            </table>
+          </section>
+          <div id="otra_info" class="float-left">
+            <form>
+              <mat-form-field class="w-40">
+                <span>Acerca de mi</span>
+                <textarea matInput readonly >{{ user.aboutMe }}</textarea>
+              </mat-form-field>
+              <mat-form-field class="w-40">
+                <span>Otras competencias</span>
+                <textarea matInput readonly>{{ user.otherCompetences }}</textarea>
+              </mat-form-field>
+            </form>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <div class="botonNew">
+        <app-stat [bgClass]="'warn'" [icon]="'edit'" [label]="'Modificar'" [routerLink]="['/admin/profile/profile-student/account']"></app-stat>
+      </div>
+    </div>
+  </div>
+
+<!--
   <div class="float-left" id="foto-perfil">
     <div>
       <img
@@ -59,85 +122,146 @@
       </div>
     </form>
   </div>
-
-  <section style="clear:both;padding-bottom:4em;"></section>
+-->
 
   <h2>Formaci&oacute;n acad&eacute;mica</h2>
-  <section id="formacion_academica">
-    <table class="table table-bordered table-striped">
-      <thead class="thead-light">
-        <th>Tipo</th>
-        <th>Nivel</th>
-        <th>T&iacute;tulo</th>
-        <th>Centro</th>
-        <th>Fecha</th>
-        <th>Certificado</th>
-        <th>Bilingüe</th>
-        <th>Dual</th>
-        <th>Acciones</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let study of user.studies; let i = index">
-          <td>{{ study.level.name }}</td>
-          <td>{{ study.grade?.name }}</td>
 
-          <td>{{ study.title.name || study.title }}</td>
-          <td>{{ study.institution.name || study.institution }}</td>
-          <td>{{ study.date }}</td>
-          <td>{{ study.certificate ? 'Sí' : 'No' }}</td>
-          <td>{{ study.bilingue ? 'Sí' : 'No' }}</td>
-          <td>{{ study.dual ? 'Sí' : 'No' }}</td>
-
-          <td>
-            <a
-              [routerLink]="['/admin/profile/profile-student/study', study.uid]"
-              >Editar</a
-            >
-            |
-            <a style="cursor:pointer" (click)="deleteStudy(study.uid)"
-              >Borrar</a
+  <div class="mb-20" flFlex flexLayout="row" flexLayout.lt-md="column">
+    <div fxFlex>
+      <table mat-table [dataSource]="user.studies" class="mat-elevation-z8">
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+          <td mat-cell *matCellDef="let element"> {{element.level.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nivel">
+          <th mat-header-cell *matHeaderCellDef> Nivel </th>
+          <td mat-cell *matCellDef="let element"> {{element.grade?.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="titulo">
+          <th mat-header-cell *matHeaderCellDef> Título </th>
+          <td mat-cell *matCellDef="let element"> {{element.title.name || element.title}} </td>
+        </ng-container>
+        <ng-container matColumnDef="centro">
+          <th mat-header-cell *matHeaderCellDef> Centro </th>
+          <td mat-cell *matCellDef="let element"> {{element.institution.name || element.institution}} </td>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+        </ng-container>
+        <ng-container matColumnDef="certificado">
+          <th mat-header-cell *matHeaderCellDef> Certificado </th>
+          <td mat-cell *matCellDef="let element"> {{ element.certificate ? 'Sí' : 'No' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="bilingue">
+          <th mat-header-cell *matHeaderCellDef> Bilingüe </th>
+          <td mat-cell *matCellDef="let element"> {{ element.bilingue ? 'Sí' : 'No' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="dual">
+          <th mat-header-cell *matHeaderCellDef> Dual </th>
+          <td mat-cell *matCellDef="let element"> {{ element.dual ? 'Sí' : 'No' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <a [routerLink]="['/admin/profile/profile-student/study', element.uid]">
+              <mat-icon class="icon-md">edit</mat-icon>
+            </a>
+            <a (click)="deleteStudy(element.uid)"
+            ><mat-icon class="icon-md">delete</mat-icon></a
             >
           </td>
-        </tr>
-      </tbody>
-    </table>
-    <a [routerLink]="['/admin/profile/profile-student/study']"
-      >Nueva formación</a
-    >
-  </section>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsStudies"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsStudies;"></tr>
+      </table>
+      <div class="botonNew">
+        <app-stat [bgClass]="'danger'" [icon]="'school'" [label]="'Nueva Formación'" [routerLink]="['/admin/profile/profile-student/study']"></app-stat>
+      </div>
+    </div>
+  </div>
+
+  <section style="clear:both"></section>
 
   <h2>Idiomas</h2>
-  <section id="languages">
-    <table class="table table-bordered table-striped">
-      <thead class="thead-light">
-        <th>Nivel</th>
-        <th>Idioma</th>
-        <th>Fecha</th>
-        <th>Acciones</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let language of user.languages">
-          <td>{{ language.level.name }}</td>
-          <td>{{ language.name.name }}</td>
-          <td>{{ language.date }}</td>
-          <td>
-            <a
-              [routerLink]="[
-                '/admin/profile/profile-student/language',
-                language.uid
-              ]"
-              >Editar</a
-            >
-            |
-            <a style="cursor:pointer" (click)="deleteLanguage(language.uid)"
-              >Borrar</a
-            >
+  <div class="mb-20" flFlex flexLayout="row" flexLayout.lt-md="column">
+    <div fxFlex>
+      <table mat-table [dataSource]="user.languages" class="mat-elevation-z8">
+        <ng-container matColumnDef="nivel">
+          <th mat-header-cell *matHeaderCellDef> Nivel </th>
+          <td mat-cell *matCellDef="let language"> {{language.level.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="idioma">
+          <th mat-header-cell *matHeaderCellDef> Idioma </th>
+          <td mat-cell *matCellDef="let language"> {{language.name.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let language"> {{language.date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let language">
+            <a [routerLink]="['/admin/profile/profile-student/language', language.uid]">
+              <mat-icon class="icon-md">edit</mat-icon>
+            </a>
+            <a (click)="deleteLanguage(language.uid)">
+              <mat-icon class="icon-md">delete</mat-icon>
+            </a>
           </td>
-        </tr>
-      </tbody>
-    </table>
-    <a [routerLink]="['/admin/profile/profile-student/language']"
-      >Nuevo idioma</a
-    >
-  </section>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsLanguages"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsLanguages;"></tr>
+      </table>
+      <div class="botonNew">
+        <app-stat [bgClass]="'info'" [icon]="'language'" [label]="'Nuevo Idioma'" [routerLink]="['/admin/profile/profile-student/language']"></app-stat>
+      </div>
+    </div>
+
+    <section style="clear:both"></section>
+
+    <h2>Experiencia</h2>
+    <div class="mb-20" flFlex flexLayout="row" flexLayout.lt-md="column">
+      <div fxFlex>
+        <table mat-table [dataSource]="user.experiencies" class="mat-elevation-z8">
+          <ng-container matColumnDef="empresa">
+            <th mat-header-cell *matHeaderCellDef> Empresa </th>
+            <td mat-cell *matCellDef="let experience"> {{experience.empresa}} </td>
+          </ng-container>
+          <ng-container matColumnDef="date_inicio">
+            <th mat-header-cell *matHeaderCellDef> Fecha inicio </th>
+            <td mat-cell *matCellDef="let experience"> {{experience.date_inicio}} </td>
+          </ng-container>
+          <ng-container matColumnDef="date_fin">
+            <th mat-header-cell *matHeaderCellDef> Fecha fin </th>
+            <td mat-cell *matCellDef="let experience"> {{experience.date_fin}} </td>
+          </ng-container>
+          <ng-container matColumnDef="puesto">
+            <th mat-header-cell *matHeaderCellDef> Puesto </th>
+            <td mat-cell *matCellDef="let experience"> {{experience.puesto}} </td>
+          </ng-container>
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let experience">
+              <a [routerLink]="['/admin/profile/profile-student/experience', experience.uid]">
+                <mat-icon class="icon-md">edit</mat-icon>
+              </a>
+              <a (click)="deleteExperience(experience.uid)">
+                <mat-icon class="icon-md">delete</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsExperiencies"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsExperiencies;"></tr>
+        </table>
+        <div class="botonNew">
+          <app-stat [bgClass]="'success'" [icon]="'work'" [label]="'Nueva Experiencia'" [routerLink]="['/admin/profile/profile-student/experience']"></app-stat>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section style="clear:both;padding-bottom:1em;"></section>
+</div>
+<div *ngIf="!user" id="contenido">
+  <p>Datos están siendo cargados...</p>
 </div>

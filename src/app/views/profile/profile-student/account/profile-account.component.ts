@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MockData } from 'src/app/shared/mock-data';
@@ -10,34 +17,33 @@ import {
   Province
 } from 'src/app/shared/models/user.model';
 import { documentNumberValidator } from 'src/app/shared/directives/document-number-validator.directive';
-import * as ProfileStudentActions from '../../../../shared/state/user/profile-student/profile-student.actions';
-import {Store} from '@ngrx/store';
-import {AppStore} from '../../../../shared/state/store.interface';
-import * as UserStudentSelectors from '../../../../shared/state/user/profile-student/profile-student.selector';
+import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
+import {APP_DATE_FORMATS, AppDateAdapter} from '../../../../shared/inmemory-db/format-datepicker';
 
 @Component({
   selector: 'app-profile-account',
   templateUrl: './profile-account.component.html',
-  styleUrls: ['./profile-account.component.scss']
+  styleUrls: ['./profile-account.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
-export class ProfileAccountComponent implements OnInit {
+export class ProfileAccountComponent implements OnInit, OnChanges {
+  @Input() user: User;
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onSave: EventEmitter<User> = new EventEmitter<User>();
   rForm: FormGroup;
-  user: User;
   documentsType: DocumentType[];
   municipes: Municipe[];
   provinces: Province[];
 
-  constructor(private router: Router, private store: Store<AppStore>) {
-    this.store.dispatch(new ProfileStudentActions.GetProfile());
-    this.store.select(UserStudentSelectors.selectUser).subscribe(userSel => {
-        if (userSel != null) {
-            this.user = userSel;
-        }
-    });
-  }
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.loadSelectProperties();
+    this.loadFormInstance();
+  }
+  ngOnChanges() {
     this.loadFormInstance();
   }
   public loadSelectProperties(): void {
@@ -70,7 +76,7 @@ export class ProfileAccountComponent implements OnInit {
           Validators.required
         ]),
 
-        birthdate: new FormControl(this.user.birthdate, [
+        birthdate: new FormControl(new Date(this.user.birthdate), [
           Validators.required,
           dateValidator()
         ]),
@@ -98,10 +104,29 @@ export class ProfileAccountComponent implements OnInit {
   }
 
   public save() {
-    const user = { ...this.user, ...this.rForm.value };
-    this.store.dispatch(new ProfileStudentActions.UpdateProfile(user));
+    if (this.rForm.controls['birthdate'].value) {
+      this.rForm.controls['birthdate'].setValue(this.formateaFecha(this.rForm.controls['birthdate'].value));
+    }
+    const { street = '', municipe = '', province = '', ...rest } = {
+      ...this.rForm.value
+    };
+    const address = {
+      street,
+      municipe,
+      province
+    };
+    const user = { ...this.user, address, ...rest };
+    this.onSave.emit(user);
+    this.router.navigate(['/admin/profile']);
   }
   compareByUID(option1, option2) {
     return option1.uid === (option2 && option2.uid);
+  }
+
+  public formateaFecha (fecha: Date) {
+    const day = fecha.getDate();
+    const month = fecha.getMonth() + 1;
+    const year = fecha.getFullYear();
+    return day + '/' + month + '/' + year;
   }
 }
