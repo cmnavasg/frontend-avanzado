@@ -22,21 +22,17 @@ import {RouterModule} from '@angular/router';
 import { rootRouterConfig } from './app-routing';
 import {CoreModule} from './shared/core.module';
 import {SharedModule} from './shared/shared.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
-    /* for development
-    return new TranslateHttpLoader(
-        http,
-        '/start-javascript/sb-admin-material/master/dist/assets/i18n/',
-        '.json'
-    );*/
-    return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, '../../assets/i18n/', '.json');
 };
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({ appId: 'serverApp' }),
 //        AppRoutingModule,
         BrowserAnimationsModule,
 //        LayoutModule,
@@ -53,8 +49,9 @@ export const createTranslateLoader = (http: HttpClient) => {
         CoreModule,
         RouterModule.forRoot(rootRouterConfig, { useHash: false }),
         HttpClientInMemoryWebApiModule.forRoot(FakeBackendService, {
-          dataEncapsulation: false, passThruUnknownUrl: true
-        })
+          dataEncapsulation: false
+        }),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [],
     bootstrap: [AppComponent]

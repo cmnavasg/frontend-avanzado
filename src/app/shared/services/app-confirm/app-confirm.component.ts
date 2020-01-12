@@ -29,6 +29,8 @@ import { Component, Inject } from '@angular/core';
   `
 })
 export class AppComfirmComponent {
+  data: any;
+  dialogRef: any;
   constructor() /*  public dialogRef: MatDialogRef<AppComfirmComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any */
   {}

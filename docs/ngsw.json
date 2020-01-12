@@ -1,0 +1,124 @@
+{
+  "configVersion": 1,
+  "timestamp": 1578851527098,
+  "index": "UOCJob/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "UOCJob/1.0c83731a91fcf1ac6aa1.js",
+        "UOCJob/10.f1dde708ec6dbdceebe9.js",
+        "UOCJob/11.50c3afee9cb81acda881.js",
+        "UOCJob/12.b51cbd84a30c41e576c5.js",
+        "UOCJob/13.7df0ab1b60c72678b51b.js",
+        "UOCJob/14.3137b9d2da04abd6505f.js",
+        "UOCJob/2.7b5cf655164028c21d22.js",
+        "UOCJob/3.5f7be582f614a17afae0.js",
+        "UOCJob/5.a669f685ac7b15acd492.js",
+        "UOCJob/common.f4e8e0f2e0aead635914.js",
+        "UOCJob/favicon.ico",
+        "UOCJob/index.html",
+        "UOCJob/main.f83cbc0176b09142eb34.js",
+        "UOCJob/manifest.webmanifest",
+        "UOCJob/polyfills-es5.430985b9f607fd885345.js",
+        "UOCJob/polyfills.2c13274d0cf246a136a0.js",
+        "UOCJob/runtime.696a55e8caa4e8b66678.js",
+        "UOCJob/styles.39f8c41b24b2b950e115.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "UOCJob/Fontin_Sans_R.6447e60e69e9362ccc05.otf",
+        "UOCJob/assets/fonts/FontinSans/Fontin_Sans_B.otf",
+        "UOCJob/assets/fonts/FontinSans/Fontin_Sans_BI.otf",
+        "UOCJob/assets/fonts/FontinSans/Fontin_Sans_I.otf",
+        "UOCJob/assets/fonts/FontinSans/Fontin_Sans_R.otf",
+        "UOCJob/assets/fonts/FontinSans/Fontin_Sans_SC.otf",
+        "UOCJob/assets/i18n/en.json",
+        "UOCJob/assets/i18n/fr.json",
+        "UOCJob/assets/i18n/ur.json",
+        "UOCJob/assets/icons/icon-128x128.png",
+        "UOCJob/assets/icons/icon-144x144.png",
+        "UOCJob/assets/icons/icon-152x152.png",
+        "UOCJob/assets/icons/icon-192x192.png",
+        "UOCJob/assets/icons/icon-384x384.png",
+        "UOCJob/assets/icons/icon-512x512.png",
+        "UOCJob/assets/icons/icon-72x72.png",
+        "UOCJob/assets/icons/icon-96x96.png",
+        "UOCJob/assets/images/card-1.jpg",
+        "UOCJob/assets/images/card-2.jpg",
+        "UOCJob/assets/images/card-3.jpg",
+        "UOCJob/assets/images/perfil.png",
+        "UOCJob/assets/images/uoc_logo.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "UOCJob/1.0c83731a91fcf1ac6aa1.js": "dbd75fd07bc1997ff3c041d7310faa08097b27fa",
+    "UOCJob/10.f1dde708ec6dbdceebe9.js": "a2ddea750a4492fbc26507745513a30c6793aa8f",
+    "UOCJob/11.50c3afee9cb81acda881.js": "717e82709ae2b054c962cbf48438478e32f43b1e",
+    "UOCJob/12.b51cbd84a30c41e576c5.js": "cd2d5607051bf9b48c704907c2d14618da400bca",
+    "UOCJob/13.7df0ab1b60c72678b51b.js": "d7ae4121758fabf429532c0c12fc4711939fed17",
+    "UOCJob/14.3137b9d2da04abd6505f.js": "3f3af931218ad7cded0f1cea967ae38479c28c23",
+    "UOCJob/2.7b5cf655164028c21d22.js": "c6a55b0d9ebacf708d7581cd418b6c7727baa8d4",
+    "UOCJob/3.5f7be582f614a17afae0.js": "f3c38f681a0f468b1bef2016561d90d944bb0128",
+    "UOCJob/5.a669f685ac7b15acd492.js": "1c1b9b0a035555b3738f3fb4e0e4ebe236a6ddf6",
+    "UOCJob/Fontin_Sans_R.6447e60e69e9362ccc05.otf": "d2e2a88fd29e66fd71bd935877a5462c97a98c94",
+    "UOCJob/assets/fonts/FontinSans/Fontin_Sans_B.otf": "35845d36e336191f9db678a9c55ea3bcff92dfe4",
+    "UOCJob/assets/fonts/FontinSans/Fontin_Sans_BI.otf": "1c0eaf3a484f2ae3f1754def68b5750a1d99d3f1",
+    "UOCJob/assets/fonts/FontinSans/Fontin_Sans_I.otf": "db2dd0d7216ee27b6b05d924735c9a8a7f4faa70",
+    "UOCJob/assets/fonts/FontinSans/Fontin_Sans_R.otf": "d2e2a88fd29e66fd71bd935877a5462c97a98c94",
+    "UOCJob/assets/fonts/FontinSans/Fontin_Sans_SC.otf": "00c252c9d64ef9b15b6bd68f68a4a7545896f772",
+    "UOCJob/assets/i18n/en.json": "14cebdbd41387930553be211236a3955a3057b87",
+    "UOCJob/assets/i18n/fr.json": "54460ae6f2d2a512e790ae743e08d679dfe8995d",
+    "UOCJob/assets/i18n/ur.json": "9933bc37a64f5c1f521a260893442fb4ae41497c",
+    "UOCJob/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "UOCJob/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "UOCJob/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "UOCJob/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "UOCJob/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "UOCJob/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "UOCJob/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "UOCJob/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "UOCJob/assets/images/card-1.jpg": "34b06ea96c607eb7ba122214a571290141295b09",
+    "UOCJob/assets/images/card-2.jpg": "083b04c2cf1f0f54f483bcfbd0dad5a2bd155ae9",
+    "UOCJob/assets/images/card-3.jpg": "a2eb1ac502716c05d32d01ef01ab60a2a9ca62ef",
+    "UOCJob/assets/images/perfil.png": "c34d68aa614df190342bf4ccfb05fabce3561034",
+    "UOCJob/assets/images/uoc_logo.png": "a8268228316a687fc11a0ecbedb2507aedcccf39",
+    "UOCJob/common.f4e8e0f2e0aead635914.js": "32bffa2159e1a5b84e425d2ab9897093823f097a",
+    "UOCJob/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "UOCJob/index.html": "e560e77560072a205db0ba27e501b7d8a10e9a5f",
+    "UOCJob/main.f83cbc0176b09142eb34.js": "3342afeff470c0aabe75c45c92327126c8029009",
+    "UOCJob/manifest.webmanifest": "cb1510963c4dc2e2c0c12ada9a3bf935928c679b",
+    "UOCJob/polyfills-es5.430985b9f607fd885345.js": "6bdd1ebf445d13c90e230de1a50cd159740840da",
+    "UOCJob/polyfills.2c13274d0cf246a136a0.js": "db0f8d56ff190eebb48b326f01b0d5a28a72b9ac",
+    "UOCJob/runtime.696a55e8caa4e8b66678.js": "62f99ac9bcc3fb1b10795c1420599f7ea2fd1290",
+    "UOCJob/styles.39f8c41b24b2b950e115.css": "bf524fef65e85d638ad9c122d3b4ff0861107fd5"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

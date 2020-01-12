@@ -22,14 +22,6 @@ import {MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMen
 import {TranslateModule} from '@ngx-translate/core';
 
 const declarations = [AppComfirmComponent, AdminLayoutComponent, SidebarComponent, TopnavComponent];
-const exports = [
-  CommonModule,
-  FormsModule,
-  ReactiveFormsModule,
-  RouterModule,
-  AppComfirmComponent,
-  AdminLayoutComponent
-];
 const providers = [AppConfirmService];
 
 @NgModule({
@@ -38,6 +30,13 @@ const providers = [AppConfirmService];
   entryComponents: [AppComfirmComponent],
   providers,
   declarations,
-  exports
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AppComfirmComponent,
+    AdminLayoutComponent
+  ]
 })
 export class SharedModule {}
